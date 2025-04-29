@@ -20,12 +20,14 @@ public class Question : AuditedAggregateRoot<Guid>
         Text = text;
         DifficultyLevel = difficultyLevel;
         Options = [];
+        CreationTime = DateTime.UtcNow;
     }
 
     public void Update(string text, DifficultyLevel difficultyLevel)
     {
         Text = text;
         DifficultyLevel = difficultyLevel;
+        LastModificationTime = DateTime.UtcNow;
     }
 
     public void AddOption(Option option)
@@ -33,5 +35,16 @@ public class Question : AuditedAggregateRoot<Guid>
         ArgumentNullException.ThrowIfNull(option);
 
         Options.Add(option);
+        LastModificationTime = DateTime.UtcNow;
     }
-} 
+
+    public void AddOptions(params Option[] options)
+    {
+        ArgumentNullException.ThrowIfNull(options);
+
+        foreach (var option in options)
+        {
+            AddOption(option);
+        }
+    }
+}
