@@ -1,0 +1,69 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+Services:
+- User Service
+    Manages user authentication and profiles.
+    Supports login, registration, and user profile management.
+
+- Quiz Service
+    Handles the creation and management of quizzes.
+    Fetches metadata related to quizzes (e.g., title, description, etc.).
+    Calculate the results for a Quiz
+
+- Question Service
+    Manages CRUD operations for quiz questions.
+    Supports different question types like multiple-choice, true/false, and others.
+    This service uses NoSql (Mongo DB) database and EF Core
+    /QuestionService
+        ├── Domain
+        │   ├── Entities
+        │   │   ├── Question.cs
+        │   │   └── Option.cs
+        │   ├── Enums
+        │   │   ├── QuestionType.cs
+        │   │   └── DifficultyLevel.cs
+        │   ├── Repositories
+        │   │   └── IQuestionRepository.cs
+    Entity: Question (Aggregate Root)
+        Guid Id
+        Guid QuizId — reference to Quiz (from Quiz Service)
+        string Text — the actual question content
+        QuestionType Type — MultipleChoice, TrueFalse, ShortAnswer
+        List<Option> Options — the possible choices or options
+        string? CorrectAnswer — can be used for validation
+        int Score — the point value for this question
+        TimeSpan? TimeLimit — optional time constraint per question
+        DifficultyLevel Difficulty — Easy, Medium, Hard
+        //Creation and Update properties in the base aggregate root class
+        //with no soft delete
+    Entity: Option
+        Guid Id
+        string Text — the option content
+        bool IsCorrect — for internal correctness validation
+
+    Enum: QuestionType
+        MultipleChoice
+        TrueFalse
+        ShortAnswer
+    Enum: DifficultyLevel
+        Easy
+        Medium
+        Hard
+
+- Notification Service
+    Sends notifications (e.g., email or in-app notification) when a user completes a quiz or when new quizzes are available.
+
+All services structure should follow Clean architecture and DDD
+
+Communication:
+1. gRPC for Internal Service Communication
+
+2. RESTful APIs for External/Client Communication
+
+Pro hints:
+Always use Shared.Domain base classes for new entity or aggregate root (AggregateRoot, Entity)
+
+Try to determine which class should be an aggregate root and which should be an entity
