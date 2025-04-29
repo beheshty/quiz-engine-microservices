@@ -16,6 +16,9 @@ obj/
 # Rider
 .idea/
 
+# Cursor files
+.cursor/rules/quiz-engine-rules.mdc
+
 # User-specific files
 *.rsuser
 *.suo
