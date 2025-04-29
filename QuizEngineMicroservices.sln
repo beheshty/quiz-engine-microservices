@@ -17,15 +17,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "QuestionService", "Question
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UserService", "UserService", "{8EEC121F-3C19-47CD-9B11-CE238F29404E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Domain", "src\Shared\Shared.Domain\Shared.Domain.csproj", "{F518FA80-D252-4A64-ADB4-B67210D471EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Domain", "src\Shared\Shared.Domain\Shared.Domain.csproj", "{F518FA80-D252-4A64-ADB4-B67210D471EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionService.Domain", "src\QuestionService\QuestionService.Domain\QuestionService.Domain.csproj", "{3110831F-3F40-4C65-8EA5-531D917F7676}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuestionService.Domain", "src\QuestionService\QuestionService.Domain\QuestionService.Domain.csproj", "{3110831F-3F40-4C65-8EA5-531D917F7676}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionService.Application", "src\QuestionService\QuestionService.Application\QuestionService.Application.csproj", "{9F4C3BF0-62F6-4A36-9410-F3E7D28C712C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuestionService.Application", "src\QuestionService\QuestionService.Application\QuestionService.Application.csproj", "{9F4C3BF0-62F6-4A36-9410-F3E7D28C712C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionService.Infrastructure", "src\QuestionService\QuestionService.Infrastructure\QuestionService.Infrastructure.csproj", "{534FCDB3-33DB-4182-B1F9-8010497ABC6E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuestionService.Infrastructure", "src\QuestionService\QuestionService.Infrastructure\QuestionService.Infrastructure.csproj", "{534FCDB3-33DB-4182-B1F9-8010497ABC6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionService.API", "src\QuestionService\QuestionService.API\QuestionService.API.csproj", "{5B2C8D02-6A67-40F9-940C-4ACF44F1F103}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuestionService.API", "src\QuestionService\QuestionService.API\QuestionService.API.csproj", "{5B2C8D02-6A67-40F9-940C-4ACF44F1F103}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuestionService.Application.Tests", "tests\QuestionService\QuestionService.Application.Tests\QuestionService.Application.Tests.csproj", "{EACEE6C1-9EFF-42A0-98E2-E02039D3BE20}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,10 @@ Global
 		{5B2C8D02-6A67-40F9-940C-4ACF44F1F103}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B2C8D02-6A67-40F9-940C-4ACF44F1F103}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B2C8D02-6A67-40F9-940C-4ACF44F1F103}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EACEE6C1-9EFF-42A0-98E2-E02039D3BE20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EACEE6C1-9EFF-42A0-98E2-E02039D3BE20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EACEE6C1-9EFF-42A0-98E2-E02039D3BE20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EACEE6C1-9EFF-42A0-98E2-E02039D3BE20}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -68,6 +74,7 @@ Global
 		{9F4C3BF0-62F6-4A36-9410-F3E7D28C712C} = {B7040F32-9567-468F-BE50-F41DF45A1540}
 		{534FCDB3-33DB-4182-B1F9-8010497ABC6E} = {B7040F32-9567-468F-BE50-F41DF45A1540}
 		{5B2C8D02-6A67-40F9-940C-4ACF44F1F103} = {B7040F32-9567-468F-BE50-F41DF45A1540}
+		{EACEE6C1-9EFF-42A0-98E2-E02039D3BE20} = {2553874B-AB6A-4E6A-89E9-6C62A0296BA7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CAD04425-5E97-4B25-878B-32011A20D8FC}
