@@ -5,7 +5,6 @@ namespace QuestionService.Domain.Entities;
 
 public class Question : AuditedAggregateRoot<Guid>
 {
-    public Guid QuizId { get; private set; }
     public string Text { get; private set; }
     public DifficultyLevel DifficultyLevel { get; private set; }
     public ICollection<Option> Options { get; private set; }
