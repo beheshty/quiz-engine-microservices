@@ -1,5 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Driver;
+using QuestionService.Domain.Entities;
 using QuestionService.Domain.Repositories;
 using QuestionService.Infrastructure.Data;
 using QuestionService.Infrastructure.Repositories;
@@ -12,10 +14,14 @@ public static class ServiceCollectionExtensions
         this IServiceCollection services,
         IConfiguration configuration)
     {
+        // Configure MongoDB settings
         services.Configure<MongoDbSettings>(
-            configuration.GetSection(nameof(MongoDbSettings)));
+            configuration.GetSection("MongoDB"));
 
+        // Register MongoDbContext as singleton
         services.AddSingleton<MongoDbContext>();
+
+        // Register repositories as scoped
         services.AddScoped<IQuestionRepository, QuestionRepository>();
 
         return services;
