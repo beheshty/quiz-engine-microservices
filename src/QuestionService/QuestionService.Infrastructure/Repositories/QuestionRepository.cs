@@ -2,6 +2,7 @@ using MongoDB.Driver;
 using QuestionService.Domain.Entities;
 using QuestionService.Domain.Enums;
 using QuestionService.Domain.Repositories;
+using QuestionService.Infrastructure.Data;
 using QuestionService.Infrastructure.Repositories.Base;
 
 namespace QuestionService.Infrastructure.Repositories;
@@ -10,9 +11,9 @@ public class QuestionRepository : MongoRepository<Question, Guid>, IQuestionRepo
 {
     private readonly IMongoCollection<Question> _collection;
 
-    public QuestionRepository(IMongoCollection<Question> collection) : base(collection)
+    public QuestionRepository(MongoDbContext context) : base(context.Questions)
     {
-        _collection = collection;
+        _collection = context.Questions;
     }
 
     public async Task<(IEnumerable<Question> Items, int TotalCount)> GetFilteredListAsync(
