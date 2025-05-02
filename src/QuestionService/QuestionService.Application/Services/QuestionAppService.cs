@@ -63,6 +63,13 @@ public class QuestionAppService : IQuestionAppService
         return MapToDto(question);
     }
 
+    public async Task<List<QuestionDto>> GetQuestionByIdsAsync(Guid[] ids, CancellationToken cancellationToken = default)
+    {
+        var questions = await _questionRepository.GetByIdsAsync(ids, cancellationToken);
+      
+        return [.. questions.Select(MapToDto)];
+    }
+
     public async Task<PaginatedResultDto<QuestionDto>> GetFilteredQuestionsAsync(QuestionFilterDto filter, CancellationToken cancellationToken = default)
     {
         // Get filtered and paginated results

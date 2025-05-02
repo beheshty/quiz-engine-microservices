@@ -9,4 +9,5 @@ public interface IQuestionAppService
     Task DeleteQuestionAsync(Guid id, CancellationToken cancellationToken = default);
     Task<QuestionDto> GetQuestionByIdAsync(Guid id, CancellationToken cancellationToken = default);
     Task<PaginatedResultDto<QuestionDto>> GetFilteredQuestionsAsync(QuestionFilterDto filter, CancellationToken cancellationToken = default);
+    Task<List<QuestionDto>> GetQuestionByIdsAsync(Guid[] ids, CancellationToken cancellationToken = default);
 } 
