@@ -12,7 +12,6 @@ namespace QuestionService.Grpc
 
             builder.Services.Configure<MongoDbSettings>(
                 builder.Configuration.GetSection("MongoDB"));
-            // Add services to the container.
             builder.Services.AddGrpc();
             builder.Services.AddApplicationServices();
             builder.Services.AddInfrastructureServices(builder.Configuration);
