@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  questionservice.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+    volumes:
+      - ./src/QuestionService:/app
+      - ~/.nuget/packages:/root/.nuget/packages:ro
+      - ~/AppData/Local/Microsoft/TypeScript/tsc:/root/.cache/typescript:ro
+
+  questionservice.grpc:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+    volumes:
+      - ./src/QuestionService:/app
+      - ~/.nuget/packages:/root/.nuget/packages:ro
+      - ~/AppData/Local/Microsoft/TypeScript/tsc:/root/.cache/typescript:ro

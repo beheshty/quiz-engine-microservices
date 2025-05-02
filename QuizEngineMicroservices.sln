@@ -14,9 +14,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NotificationService", "NotificationService", "{D657E525-9001-4534-88FE-CA7D24129D97}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "QuestionService", "QuestionService", "{B7040F32-9567-468F-BE50-F41DF45A1540}"
-	ProjectSection(SolutionItems) = preProject
-		src\QuestionService\docker-compose.yml = src\QuestionService\docker-compose.yml
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UserService", "UserService", "{8EEC121F-3C19-47CD-9B11-CE238F29404E}"
 EndProject
@@ -43,6 +40,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuizService.Application.Tests", "tests\QuizService\QuizService.Application.Tests\QuizService.Application.Tests.csproj", "{8FC6AEDD-DD3A-4796-BC0A-41A0F33C194C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionService.Grpc", "src\QuestionService\QuestionService.Grpc\QuestionService.Grpc.csproj", "{0DD22478-1F03-53AD-8A2F-016AAD31F411}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{81DDED9D-158B-E303-5F62-77A2896D2A5A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -98,6 +97,10 @@ Global
 		{0DD22478-1F03-53AD-8A2F-016AAD31F411}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0DD22478-1F03-53AD-8A2F-016AAD31F411}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0DD22478-1F03-53AD-8A2F-016AAD31F411}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

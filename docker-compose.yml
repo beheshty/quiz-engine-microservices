@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  questionservice.api:
+    image: ${DOCKER_REGISTRY-}questionserviceapi
+    build:
+      context: .
+      dockerfile: src/QuestionService/QuestionService.API/Dockerfile
+    ports:
+      - "8080:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - MongoDB__ConnectionString=mongodb://mongodb:27017
+      - MongoDB__DatabaseName=QuestionServiceDb
+      - MongoDB__QuestionsCollectionName=Questions
+    depends_on:
+      - mongodb
+
+  questionservice.grpc:
+    image: ${DOCKER_REGISTRY-}questionservicegrpc
+    build:
+      context: .
+      dockerfile: src/QuestionService/QuestionService.Grpc/Dockerfile
+    ports:
+      - "8081:8080"
+      - "8082:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - MongoDB__ConnectionString=mongodb://mongodb:27017
+      - MongoDB__DatabaseName=QuestionServiceDb
+      - MongoDB__QuestionsCollectionName=Questions
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    command: mongod --bind_ip_all
+
+networks:
+  default:
+    name: quiz-network
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.21.0.0/16
+
+volumes:
+  mongodb_data: 
