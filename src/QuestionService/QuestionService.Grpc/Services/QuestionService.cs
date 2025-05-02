@@ -1,18 +1,15 @@
 using Grpc.Core;
+using QuestionService.Application.Services;
 
 namespace QuestionService.Grpc.Services
 {
-    public class QuestionService : Questions.QuestionsBase
+    public class QuestionService(IQuestionAppService questionAppService, ILogger<QuestionService> logger) : Questions.QuestionsBase
     {
-        private readonly ILogger<QuestionService> _logger;
-        public QuestionService(ILogger<QuestionService> logger)
+        public override async Task<GetQuestionsResponse> GetQuestionsByIds(GetQuestionsRequest request, ServerCallContext context)
         {
-            _logger = logger;
-        }
-
-        public override Task<GetQuestionsResponse> GetQuestionsByIds(GetQuestionsRequest request, ServerCallContext context)
-        {
-            return base.GetQuestionsByIds(request, context);
+            var questionIds = request.QuestionIds.Select(Guid.Parse).ToArray();
+            var questions = await questionAppService.GetQuestionByIdsAsync(questionIds);
+            return new GetQuestionsResponse { Questions = { questions.Select(q => new Question { Id = q.Id.ToString(), Text = q.Text, DifficultyLevel = (int)q.DifficultyLevel }) } };
         }
     }
 }
