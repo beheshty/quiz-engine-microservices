@@ -1,7 +1,5 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MongoDB.Driver;
-using QuestionService.Domain.Entities;
 using QuestionService.Domain.Repositories;
 using QuestionService.Infrastructure.Data;
 using QuestionService.Infrastructure.Repositories;

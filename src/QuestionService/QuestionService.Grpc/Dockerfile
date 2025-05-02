@@ -12,10 +12,14 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["QuestionService.Grpc/QuestionService.Grpc.csproj", "QuestionService.Grpc/"]
-RUN dotnet restore "./QuestionService.Grpc/QuestionService.Grpc.csproj"
+COPY ["src/QuestionService/QuestionService.Grpc/QuestionService.Grpc.csproj", "src/QuestionService/QuestionService.Grpc/"]
+COPY ["src/QuestionService/QuestionService.Application/QuestionService.Application.csproj", "src/QuestionService/QuestionService.Application/"]
+COPY ["src/QuestionService/QuestionService.Domain/QuestionService.Domain.csproj", "src/QuestionService/QuestionService.Domain/"]
+COPY ["src/QuestionService/QuestionService.Infrastructure/QuestionService.Infrastructure.csproj", "src/QuestionService/QuestionService.Infrastructure/"]
+COPY ["src/Shared/Shared.Domain/Shared.Domain.csproj", "src/Shared/Shared.Domain/"]
+RUN dotnet restore "src/QuestionService/QuestionService.Grpc/QuestionService.Grpc.csproj"
 COPY . .
-WORKDIR "/src/QuestionService.Grpc"
+WORKDIR "/src/src/QuestionService/QuestionService.Grpc"
 RUN dotnet build "./QuestionService.Grpc.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage

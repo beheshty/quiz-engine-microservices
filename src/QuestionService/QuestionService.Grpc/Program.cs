@@ -1,3 +1,6 @@
+using QuestionService.Application;
+using QuestionService.Infrastructure.Data;
+using QuestionService.Infrastructure;
 
 namespace QuestionService.Grpc
 {
@@ -7,9 +10,12 @@ namespace QuestionService.Grpc
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.Configure<MongoDbSettings>(
+                builder.Configuration.GetSection("MongoDB"));
             // Add services to the container.
             builder.Services.AddGrpc();
-
+            builder.Services.AddApplicationServices();
+            builder.Services.AddInfrastructureServices(builder.Configuration);
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
