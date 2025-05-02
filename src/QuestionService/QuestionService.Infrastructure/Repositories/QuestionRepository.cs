@@ -47,4 +47,15 @@ public class QuestionRepository : MongoRepository<Question, Guid>, IQuestionRepo
 
         return (items, (int)totalCount);
     }
+
+    public async Task<IEnumerable<Question>> GetByIdsAsync(Guid[] ids, CancellationToken cancellationToken = default)
+    {
+        if (ids == null || ids.Length == 0)
+        {
+            return [];
+        }
+
+        var filter = Builders<Question>.Filter.In(q => q.Id, ids);
+        return await _collection.Find(filter).ToListAsync(cancellationToken);
+    }
 } 
