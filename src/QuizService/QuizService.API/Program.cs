@@ -15,6 +15,8 @@ builder.Services.AddInfrastructureServices(builder.Configuration);
 // Add CQRS services
 builder.Services.AddCQRS(Assembly.GetExecutingAssembly());
 
+builder.Services.AddControllers();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
