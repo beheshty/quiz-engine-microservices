@@ -32,6 +32,21 @@ services:
     depends_on:
       - mongodb
 
+  quizservice.api:
+    image: ${DOCKER_REGISTRY-}quizserviceapi
+    build:
+      context: .
+      dockerfile: src/QuizService/QuizService.API/Dockerfile
+    ports:
+      - "8083:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__DefaultConnection=Host=postgres;Database=quizdb;Username=postgres;Password=postgres
+    depends_on:
+      postgres:
+        condition: service_healthy
+
   mongodb:
     image: mongo:latest
     ports:
@@ -39,6 +54,22 @@ services:
     volumes:
       - mongodb_data:/data/db
     command: mongod --bind_ip_all
+
+  postgres:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=quizdb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
 networks:
   default:
@@ -50,4 +81,5 @@ networks:
         - subnet: 172.21.0.0/16
 
 volumes:
-  mongodb_data: 
+  mongodb_data:
+  postgres_data: 
