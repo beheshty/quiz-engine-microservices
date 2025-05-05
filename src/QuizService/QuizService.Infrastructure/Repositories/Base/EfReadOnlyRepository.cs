@@ -1,46 +1,48 @@
-using MongoDB.Driver;
+using Microsoft.EntityFrameworkCore;
 using QuizEngineMicroservices.Shared.Domain;
 using Shared.Domain.Exceptions;
 using Shared.Domain.Repositories;
 using System.Linq.Expressions;
 
-namespace QuestionService.Infrastructure.Repositories.Base;
+namespace QuizService.Infrastructure.Repositories.Base;
 
-public abstract class MongoReadOnlyRepository<TEntity> : IReadOnlyRepository<TEntity>
+public abstract class EfReadOnlyRepository<TEntity> : IReadOnlyRepository<TEntity>
     where TEntity : class, IEntity
 {
-    protected readonly IMongoCollection<TEntity> Collection;
+    protected readonly DbContext Context;
+    protected readonly DbSet<TEntity> DbSet;
 
-    protected MongoReadOnlyRepository(IMongoCollection<TEntity> collection)
+    protected EfReadOnlyRepository(DbContext context)
     {
-        Collection = collection;
+        Context = context;
+        DbSet = context.Set<TEntity>();
     }
 
     public virtual async Task<bool> AnyAsync(CancellationToken cancellationToken = default)
     {
-        return await Collection.Find(FilterDefinition<TEntity>.Empty).AnyAsync(cancellationToken);
+        return await DbSet.AnyAsync(cancellationToken);
     }
 
     public virtual async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
     {
-        return await Collection.Find(predicate).AnyAsync(cancellationToken);
+        return await DbSet.AnyAsync(predicate, cancellationToken);
     }
 
     public virtual async Task<List<TEntity>> GetListAsync(CancellationToken cancellationToken = default)
     {
-        return await Collection.Find(FilterDefinition<TEntity>.Empty).ToListAsync(cancellationToken);
+        return await DbSet.ToListAsync(cancellationToken);
     }
 
     public virtual async Task<long> GetCountAsync(CancellationToken cancellationToken = default)
     {
-        return await Collection.CountDocumentsAsync(FilterDefinition<TEntity>.Empty, cancellationToken: cancellationToken);
+        return await DbSet.LongCountAsync(cancellationToken);
     }
 }
 
-public abstract class MongoReadOnlyRepository<TEntity, TKey> : MongoReadOnlyRepository<TEntity>, IReadOnlyRepository<TEntity, TKey>
+public abstract class EfReadOnlyRepository<TEntity, TKey> : EfReadOnlyRepository<TEntity>, IReadOnlyRepository<TEntity, TKey>
     where TEntity : class, IEntity<TKey>
 {
-    protected MongoReadOnlyRepository(IMongoCollection<TEntity> collection) : base(collection)
+    protected EfReadOnlyRepository(DbContext context) : base(context)
     {
     }
 
@@ -56,7 +58,6 @@ public abstract class MongoReadOnlyRepository<TEntity, TKey> : MongoReadOnlyRepo
 
     public virtual async Task<TEntity?> FindAsync(TKey id, CancellationToken cancellationToken = default)
     {
-        var filter = Builders<TEntity>.Filter.Eq(e => e.Id, id);
-        return await Collection.Find(filter).FirstOrDefaultAsync(cancellationToken);
+        return await DbSet.FindAsync(new object[] { id }, cancellationToken);
     }
-}
+} 

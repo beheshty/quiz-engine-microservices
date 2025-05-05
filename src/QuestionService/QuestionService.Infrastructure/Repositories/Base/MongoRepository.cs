@@ -1,6 +1,6 @@
 using MongoDB.Driver;
 using QuizEngineMicroservices.Shared.Domain;
-using QuestionService.Infrastructure.Exceptions;
+using Shared.Domain.Exceptions;
 using Shared.Domain.Repositories;
 
 namespace QuestionService.Infrastructure.Repositories.Base;
