@@ -1,4 +1,4 @@
-namespace QuestionService.Infrastructure.Exceptions;
+namespace Shared.Domain.Exceptions;
 
 public class EntityNotFoundException : Exception
 {
