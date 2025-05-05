@@ -18,3 +18,12 @@ services:
       - ./src/QuestionService:/app
       - ~/.nuget/packages:/root/.nuget/packages:ro
       - ~/AppData/Local/Microsoft/TypeScript/tsc:/root/.cache/typescript:ro
+
+  quizservice.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+    volumes:
+      - ./src/QuizService:/app
+      - ~/.nuget/packages:/root/.nuget/packages:ro
+      - ~/AppData/Local/Microsoft/TypeScript/tsc:/root/.cache/typescript:ro
