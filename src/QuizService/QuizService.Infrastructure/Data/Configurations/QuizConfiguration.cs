@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using QuizService.Domain.Entities.QuizManagement;
-using QuizService.Domain.Enums;
 
 namespace QuizService.Infrastructure.Data.Configurations;
 
