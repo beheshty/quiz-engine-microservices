@@ -1,4 +1,5 @@
 using QuizService.Application.Common.CQRS;
+using QuizService.Application.Common.Grpc;
 using QuizService.Infrastructure.Extensions;
 using System.Reflection;
 
@@ -12,10 +13,11 @@ builder.Services.AddSwaggerGen();
 // Add infrastructure services
 builder.Services.AddInfrastructureServices(builder.Configuration);
 
+// Add gRPC client
+builder.Services.AddQuestionGrpcClient(builder.Configuration);
+
 // Add CQRS services
 builder.Services.AddCQRS(Assembly.GetExecutingAssembly());
-
-builder.Services.AddControllers();
 
 var app = builder.Build();
 
