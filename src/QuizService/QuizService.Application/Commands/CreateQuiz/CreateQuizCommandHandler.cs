@@ -1,8 +1,6 @@
 using QuizService.Application.Common.CQRS.Interfaces;
 using QuizService.Domain.Entities.QuizManagement;
 using QuizService.Domain.Repositories;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace QuizService.Application.Commands.CreateQuiz;
 
