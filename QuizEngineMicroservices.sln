@@ -49,6 +49,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "QuestionService", "Question
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "QuizService", "QuizService", "{D20BD56E-AF83-4E86-9FDB-993A1016379D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Question.Grpc.Proto", "src\Shared\Shared.Question.Grpc.Proto\Shared.Question.Grpc.Proto.csproj", "{E8421CB1-31D8-4672-ADAC-92FC6A2A2DED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,6 +113,10 @@ Global
 		{A5D7C2F8-B9C4-4A15-9E9C-7E9B2E5E8A1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5D7C2F8-B9C4-4A15-9E9C-7E9B2E5E8A1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5D7C2F8-B9C4-4A15-9E9C-7E9B2E5E8A1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8421CB1-31D8-4672-ADAC-92FC6A2A2DED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8421CB1-31D8-4672-ADAC-92FC6A2A2DED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8421CB1-31D8-4672-ADAC-92FC6A2A2DED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8421CB1-31D8-4672-ADAC-92FC6A2A2DED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -136,6 +142,7 @@ Global
 		{A5D7C2F8-B9C4-4A15-9E9C-7E9B2E5E8A1D} = {D20BD56E-AF83-4E86-9FDB-993A1016379D}
 		{02EA681E-C7D8-13C7-8484-4AC65E1B71E8} = {2553874B-AB6A-4E6A-89E9-6C62A0296BA7}
 		{D20BD56E-AF83-4E86-9FDB-993A1016379D} = {2553874B-AB6A-4E6A-89E9-6C62A0296BA7}
+		{E8421CB1-31D8-4672-ADAC-92FC6A2A2DED} = {D68B7F3B-DDEF-4006-B331-8B233CB60074}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CAD04425-5E97-4B25-878B-32011A20D8FC}

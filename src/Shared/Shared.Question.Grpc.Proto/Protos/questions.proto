@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option csharp_namespace = "Shared.Question.Grpc.Proto";
+
+package questions;
+
+service Questions {
+  rpc GetQuestionsByIds (GetQuestionsRequest) returns (GetQuestionsResponse);
+}
+
+message GetQuestionsRequest {
+  repeated string question_ids = 1;
+}
+
+message Question {
+  string id = 1;
+  string text = 2;
+  int32 DifficultyLevel = 3;
+  repeated string options = 4;
+}
+
+message GetQuestionsResponse {
+  repeated Question questions = 1;
+}
