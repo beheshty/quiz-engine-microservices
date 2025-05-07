@@ -1,6 +1,9 @@
 using QuizService.Application.Common.CQRS;
 using QuizService.Application.Common.Grpc;
+using QuizService.Application.Commands.CreateQuiz;
 using QuizService.Infrastructure.Extensions;
+using QuizService.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,11 +20,18 @@ builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddQuestionGrpcClient(builder.Configuration);
 
 // Add CQRS services
-builder.Services.AddCQRS(Assembly.GetExecutingAssembly());
+builder.Services.AddCQRS(typeof(CreateQuizCommand).Assembly);
 
 builder.Services.AddControllers();
 
 var app = builder.Build();
+
+// Apply migrations at startup
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<QuizDbContext>();
+    dbContext.Database.Migrate();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -42,7 +42,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - ConnectionStrings__DefaultConnection=Host=postgres;Database=quizdb;Username=postgres;Password=postgres
+      - DatabaseSettings__ConnectionString=Host=postgres;Database=quizdb;Username=postgres;Password=postgres
     depends_on:
       postgres:
         condition: service_healthy

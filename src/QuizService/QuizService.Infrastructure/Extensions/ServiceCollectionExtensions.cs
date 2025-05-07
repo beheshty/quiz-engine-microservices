@@ -12,7 +12,8 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.Configure<DatabaseSettings>(configuration.GetSection(DatabaseSettings.SectionName));
+        services.Configure<DatabaseSettings>(options => 
+            configuration.GetSection(DatabaseSettings.SectionName).Bind(options));
         
         services.AddDbContext<QuizDbContext>((serviceProvider, options) =>
         {
