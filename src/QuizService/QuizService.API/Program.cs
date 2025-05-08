@@ -1,5 +1,6 @@
 using QuizService.Application.Common.CQRS;
 using QuizService.Application.Common.Grpc;
+using QuizService.Application.Common;
 using QuizService.Application.Commands.CreateQuiz;
 using QuizService.Infrastructure.Extensions;
 using QuizService.Infrastructure.Data;
@@ -18,6 +19,9 @@ builder.Services.AddInfrastructureServices(builder.Configuration);
 
 // Add gRPC client
 builder.Services.AddQuestionGrpcClient(builder.Configuration);
+
+// Add application services
+builder.Services.AddApplicationServices();
 
 // Add CQRS services
 builder.Services.AddCQRS(typeof(CreateQuizCommand).Assembly);
