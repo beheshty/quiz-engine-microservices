@@ -15,6 +15,8 @@ services:
       - MongoDB__QuestionsCollectionName=Questions
     depends_on:
       - mongodb
+    networks:
+      - quiz-network
 
   questionservice.grpc:
     image: ${DOCKER_REGISTRY-}questionservicegrpc
@@ -31,6 +33,8 @@ services:
       - MongoDB__QuestionsCollectionName=Questions
     depends_on:
       - mongodb
+    networks:
+      - quiz-network
 
   quizservice.api:
     image: ${DOCKER_REGISTRY-}quizserviceapi
@@ -43,9 +47,14 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
       - DatabaseSettings__ConnectionString=Host=postgres;Database=quizdb;Username=postgres;Password=postgres
+      - QuestionService__GrpcUrl=http://questionservice.grpc:8080
     depends_on:
       postgres:
         condition: service_healthy
+      questionservice.grpc:
+        condition: service_started
+    networks:
+      - quiz-network
 
   mongodb:
     image: mongo:latest
@@ -54,6 +63,8 @@ services:
     volumes:
       - mongodb_data:/data/db
     command: mongod --bind_ip_all
+    networks:
+      - quiz-network
 
   postgres:
     image: postgres:latest
@@ -70,15 +81,12 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    networks:
+      - quiz-network
 
 networks:
-  default:
-    name: quiz-network
+  quiz-network:
     driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.21.0.0/16
 
 volumes:
   mongodb_data:
