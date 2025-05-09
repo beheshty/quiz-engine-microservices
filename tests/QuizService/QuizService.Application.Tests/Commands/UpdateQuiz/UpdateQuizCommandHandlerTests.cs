@@ -23,17 +23,35 @@ public class UpdateQuizCommandHandlerTests
     }
 
     [Fact]
+    public async Task Handle_WhenQuizNotFound_ThrowsEntityNotFoundException()
+    {
+        // Arrange
+        var quizId = Guid.NewGuid();
+        var command = new UpdateQuizCommand(quizId, new UpdateQuizDto
+        {
+            Title = "Updated Title",
+            Description = "Updated Description",
+            Questions = new List<QuizQuestionDto>()
+        });
+
+        _quizRepositoryMock.Setup(x => x.GetAsync(It.Is<Guid>(id => id == quizId), It.IsAny<CancellationToken>()))
+            .ReturnsAsync((Quiz)null!);
+
+        // Act & Assert
+        await Assert.ThrowsAsync<EntityNotFoundException>(() => _handler.Handle(command));
+    }
+
+    [Fact]
     public async Task Handle_WhenQuizNotInDraftStatus_ThrowsInvalidOperationException()
     {
         // Arrange
         var quizId = Guid.NewGuid();
-        var command = new UpdateQuizCommand
+        var command = new UpdateQuizCommand(quizId, new UpdateQuizDto
         {
-            Id = quizId,
             Title = "Updated Title",
             Description = "Updated Description",
             Questions = new List<QuizQuestionDto>()
-        };
+        });
 
         var quiz = new Quiz(quizId, "Original Title", "Original Description");
         quiz.ChangeStatus(QuizStatus.Published);
@@ -52,16 +70,15 @@ public class UpdateQuizCommandHandlerTests
         // Arrange
         var quizId = Guid.NewGuid();
         var questionId = Guid.NewGuid();
-        var command = new UpdateQuizCommand
+        var command = new UpdateQuizCommand(quizId, new UpdateQuizDto
         {
-            Id = quizId,
             Title = "Updated Title",
             Description = "Updated Description",
             Questions = new List<QuizQuestionDto>
             {
                 new() { QuestionId = questionId, Order = 1 }
             }
-        };
+        });
 
         var quiz = new Quiz(quizId, "Original Title", "Original Description");
 
@@ -82,16 +99,15 @@ public class UpdateQuizCommandHandlerTests
         // Arrange
         var quizId = Guid.NewGuid();
         var questionId = Guid.NewGuid();
-        var command = new UpdateQuizCommand
+        var command = new UpdateQuizCommand(quizId, new UpdateQuizDto
         {
-            Id = quizId,
             Title = "Updated Title",
             Description = "Updated Description",
             Questions = new List<QuizQuestionDto>
             {
                 new() { QuestionId = questionId, Order = 1 }
             }
-        };
+        });
 
         var quiz = new Quiz(quizId, "Original Title", "Original Description");
 
@@ -105,8 +121,8 @@ public class UpdateQuizCommandHandlerTests
         _quizRepositoryMock.Setup(x => x.UpdateAsync(
                 It.Is<Quiz>(q => 
                     q.Id == quizId && 
-                    q.Title == command.Title && 
-                    q.Description == command.Description && 
+                    q.Title == command.Quiz.Title && 
+                    q.Description == command.Quiz.Description && 
                     q.Questions.Single().QuestionId == questionId && 
                     q.Questions.Single().Order == 1), 
                 true, 
@@ -118,8 +134,8 @@ public class UpdateQuizCommandHandlerTests
 
         // Assert
         Assert.Equal(quizId, result);
-        Assert.Equal(command.Title, quiz.Title);
-        Assert.Equal(command.Description, quiz.Description);
+        Assert.Equal(command.Quiz.Title, quiz.Title);
+        Assert.Equal(command.Quiz.Description, quiz.Description);
         Assert.Single(quiz.Questions);
         Assert.Equal(questionId, quiz.Questions.First().QuestionId);
         Assert.Equal(1, quiz.Questions.First().Order);
@@ -127,8 +143,8 @@ public class UpdateQuizCommandHandlerTests
         _quizRepositoryMock.Verify(x => x.UpdateAsync(
             It.Is<Quiz>(q => 
                 q.Id == quizId && 
-                q.Title == command.Title && 
-                q.Description == command.Description && 
+                q.Title == command.Quiz.Title && 
+                q.Description == command.Quiz.Description && 
                 q.Questions.Single().QuestionId == questionId && 
                 q.Questions.Single().Order == 1), 
             true, 
