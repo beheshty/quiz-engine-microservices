@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using QuizService.Application.Commands.CreateQuiz;
+using QuizService.Application.Commands.UpdateQuiz;
 using QuizService.Application.Common.CQRS.Interfaces;
 
 namespace QuizService.API.Controllers;
@@ -32,5 +33,29 @@ public class QuizController : ControllerBase
         var quizId = await _dispatcher.Send(command, cancellationToken);
         
         return CreatedAtAction(nameof(CreateQuiz), new { id = quizId }, quizId);
+    }
+
+    /// <summary>
+    /// Updates an existing quiz
+    /// </summary>
+    /// <param name="id">The ID of the quiz to update</param>
+    /// <param name="quiz">The updated quiz data</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The ID of the updated quiz</returns>
+    /// <response code="200">Returns the updated quiz ID</response>
+    /// <response code="400">If the quiz data is invalid</response>
+    /// <response code="404">If the quiz is not found</response>
+    /// <response code="409">If the quiz is not in Draft status</response>
+    [HttpPut("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public async Task<ActionResult<Guid>> UpdateQuiz(Guid id, UpdateQuizDto quiz, CancellationToken cancellationToken = default)
+    {
+        var command = new UpdateQuizCommand(id, quiz);
+        var quizId = await _dispatcher.Send(command, cancellationToken);
+        
+        return Ok(quizId);
     }
 } 
