@@ -2,10 +2,6 @@ using QuizService.Application.Common.CQRS.Interfaces;
 using QuizService.Application.Services;
 using QuizService.Domain.Entities.QuizManagement;
 using QuizService.Domain.Repositories;
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace QuizService.Application.Commands.CreateQuiz;
 
@@ -28,12 +24,10 @@ public class CreateQuizCommandHandler : ICommandHandler<CreateQuizCommand, Guid>
         var questionIds = command.Quiz.Questions.Select(q => q.QuestionId);
         await _questionValidationService.ValidateQuestionsExistAsync(questionIds, cancellationToken);
 
-        var quizId = Guid.NewGuid();
-        var quiz = new Quiz(quizId, command.Quiz.Title, command.Quiz.Description);
+        var quiz = new Quiz(Guid.NewGuid(), command.Quiz.Title, command.Quiz.Description);
 
         var questions = command.Quiz.Questions.Select(q => new QuizQuestion
         {
-            QuizId = quizId,
             QuestionId = q.QuestionId,
             Order = q.Order
         });
@@ -42,6 +36,6 @@ public class CreateQuizCommandHandler : ICommandHandler<CreateQuizCommand, Guid>
 
         await _quizRepository.InsertAsync(quiz, true, cancellationToken);
 
-        return quizId;
+        return quiz.Id;
     }
 } 
