@@ -30,7 +30,7 @@ public class Quiz : AuditedAggregateRoot<Guid>
 
     public void ChangeStatus(QuizStatus newStatus)
     {
-        if (Status !=  QuizStatus.Draft && newStatus == QuizStatus.Draft) 
+        if (Status != QuizStatus.Draft && newStatus == QuizStatus.Draft) 
         {
             throw new InvalidOperationException("Cannot change status to Draft");
         }
