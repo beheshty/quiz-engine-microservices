@@ -34,16 +34,16 @@ public class UpdateQuizCommandHandler : ICommandHandler<UpdateQuizCommand, Guid>
         }
 
         // Validate that all questions exist
-        var questionIds = command.Questions.Select(q => q.QuestionId);
+        var questionIds = command.Quiz.Questions.Select(q => q.QuestionId);
         await _questionValidationService.ValidateQuestionsExistAsync(questionIds, cancellationToken);
 
         // Update basic properties
-        quiz.Title = command.Title;
-        quiz.Description = command.Description;
+        quiz.Title = command.Quiz.Title;
+        quiz.Description = command.Quiz.Description;
 
         // Clear existing questions and add new ones
         quiz.Questions.Clear();
-        var questions = command.Questions.Select(q => new QuizQuestion
+        var questions = command.Quiz.Questions.Select(q => new QuizQuestion
         {
             QuestionId = q.QuestionId,
             Order = q.Order
