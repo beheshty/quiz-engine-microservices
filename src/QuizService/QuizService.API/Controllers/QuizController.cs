@@ -70,7 +70,6 @@ public class QuizController : ControllerBase
     [HttpPatch("{id}/status")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<QuizStatus>> ChangeQuizStatus(Guid id, [FromBody] QuizStatus newStatus, CancellationToken cancellationToken = default)
     {
         var command = new ChangeQuizStatusCommand
@@ -91,11 +90,9 @@ public class QuizController : ControllerBase
     /// <returns>The ID of the deleted quiz</returns>
     /// <response code="200">Returns the deleted quiz ID</response>
     /// <response code="400">If the quiz cannot be deleted (not in Draft status)</response>
-    /// <response code="404">If the quiz is not found</response>
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<Guid>> DeleteQuiz(Guid id, CancellationToken cancellationToken = default)
     {
         var command = new DeleteQuizCommand(id);
