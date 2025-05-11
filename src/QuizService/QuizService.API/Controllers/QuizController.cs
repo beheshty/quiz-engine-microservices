@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using QuizService.Application.Commands.CreateQuiz;
 using QuizService.Application.Commands.UpdateQuiz;
 using QuizService.Application.Commands.ChangeQuizStatus;
+using QuizService.Application.Commands.DeleteQuiz;
 using QuizService.Application.Common.CQRS.Interfaces;
 using QuizService.Domain.Enums;
 
@@ -69,7 +70,6 @@ public class QuizController : ControllerBase
     [HttpPatch("{id}/status")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<QuizStatus>> ChangeQuizStatus(Guid id, [FromBody] QuizStatus newStatus, CancellationToken cancellationToken = default)
     {
         var command = new ChangeQuizStatusCommand
@@ -80,5 +80,24 @@ public class QuizController : ControllerBase
         
         var status = await _dispatcher.Send(command, cancellationToken);
         return Ok(status);
+    }
+
+    /// <summary>
+    /// Deletes a quiz
+    /// </summary>
+    /// <param name="id">The ID of the quiz to delete</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The ID of the deleted quiz</returns>
+    /// <response code="200">Returns the deleted quiz ID</response>
+    /// <response code="400">If the quiz cannot be deleted (not in Draft status)</response>
+    [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<Guid>> DeleteQuiz(Guid id, CancellationToken cancellationToken = default)
+    {
+        var command = new DeleteQuizCommand(id);
+        var quizId = await _dispatcher.Send(command, cancellationToken);
+        
+        return Ok(quizId);
     }
 } 
