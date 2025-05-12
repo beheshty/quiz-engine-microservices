@@ -24,6 +24,7 @@ public class GetQuizzesQueryHandler : IQueryHandler<GetQuizzesQuery, List<QuizLi
         };
 
         var quizzes = await _quizRepository.GetListAsync(filter, cancellationToken);
+
         return [.. quizzes.Select(q => new QuizListItemDto
         {
             Id = q.Id,
