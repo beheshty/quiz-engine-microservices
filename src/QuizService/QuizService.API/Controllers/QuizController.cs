@@ -4,7 +4,9 @@ using QuizService.Application.Commands.UpdateQuiz;
 using QuizService.Application.Commands.ChangeQuizStatus;
 using QuizService.Application.Commands.DeleteQuiz;
 using QuizService.Application.Common.CQRS.Interfaces;
+using QuizService.Application.Queries.GetQuizzes;
 using QuizService.Domain.Enums;
+using QuizService.API.Models;
 
 namespace QuizService.API.Controllers;
 
@@ -17,6 +19,30 @@ public class QuizController : ControllerBase
     public QuizController(IDispatcher dispatcher)
     {
         _dispatcher = dispatcher;
+    }
+
+    /// <summary>
+    /// Gets a list of quizzes with optional filters
+    /// </summary>
+    /// <param name="filters">Filter criteria for the quizzes</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>A list of quizzes matching the filters</returns>
+    /// <response code="200">Returns the list of quizzes</response>
+    [HttpGet]
+    [ProducesResponseType(typeof(List<QuizListItemDto>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<List<QuizListItemDto>>> GetQuizzes(
+        [FromQuery] QuizFilterRequest filters,
+        CancellationToken cancellationToken = default)
+    {
+        var query = new GetQuizzesQuery(
+            filters.Title,
+            filters.Status,
+            filters.CreatedFrom,
+            filters.CreatedTo);
+            
+        var quizzes = await _dispatcher.Send(query, cancellationToken);
+        
+        return Ok(quizzes);
     }
 
     /// <summary>
