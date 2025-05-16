@@ -12,13 +12,13 @@ namespace QuizService.Application.Tests.Commands.UpdateQuiz;
 public class UpdateQuizCommandHandlerTests
 {
     private readonly Mock<IQuizRepository> _quizRepositoryMock;
-    private readonly Mock<IQuestionValidationService> _questionValidationServiceMock;
+    private readonly Mock<IQuestionService> _questionValidationServiceMock;
     private readonly UpdateQuizCommandHandler _handler;
 
     public UpdateQuizCommandHandlerTests()
     {
         _quizRepositoryMock = new Mock<IQuizRepository>();
-        _questionValidationServiceMock = new Mock<IQuestionValidationService>();
+        _questionValidationServiceMock = new Mock<IQuestionService>();
         _handler = new UpdateQuizCommandHandler(_quizRepositoryMock.Object, _questionValidationServiceMock.Object);
     }
 

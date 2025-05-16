@@ -17,6 +17,7 @@ message Question {
   string text = 2;
   int32 DifficultyLevel = 3;
   repeated string options = 4;
+  string correct_answer_option_Id = 5;
 }
 
 message GetQuestionsResponse {
