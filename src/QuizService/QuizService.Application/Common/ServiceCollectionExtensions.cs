@@ -7,7 +7,7 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
-        services.AddScoped<IQuestionValidationService, QuestionValidationService>();
+        services.AddScoped<IQuestionService, QuestionService>();
         
         return services;
     }

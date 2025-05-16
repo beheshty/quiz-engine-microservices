@@ -6,15 +6,15 @@ using Xunit;
 
 namespace QuizService.Application.Tests.Services;
 
-public class QuestionValidationServiceTests
+public class QuestionServiceTests
 {
     private readonly Mock<IQuestionGrpcClient> _questionGrpcClientMock;
-    private readonly QuestionValidationService _sut;
+    private readonly QuestionService _sut;
 
-    public QuestionValidationServiceTests()
+    public QuestionServiceTests()
     {
         _questionGrpcClientMock = new Mock<IQuestionGrpcClient>();
-        _sut = new QuestionValidationService(_questionGrpcClientMock.Object);
+        _sut = new QuestionService(_questionGrpcClientMock.Object);
     }
 
     [Fact]
