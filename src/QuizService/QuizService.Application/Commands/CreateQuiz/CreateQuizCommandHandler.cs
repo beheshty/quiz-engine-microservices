@@ -8,21 +8,21 @@ namespace QuizService.Application.Commands.CreateQuiz;
 public class CreateQuizCommandHandler : ICommandHandler<CreateQuizCommand, Guid>
 {
     private readonly IQuizRepository _quizRepository;
-    private readonly IQuestionValidationService _questionValidationService;
+    private readonly IQuestionService _questionService;
 
     public CreateQuizCommandHandler(
         IQuizRepository quizRepository,
-        IQuestionValidationService questionValidationService)
+        IQuestionService questionValidationService)
     {
         _quizRepository = quizRepository;
-        _questionValidationService = questionValidationService;
+        _questionService = questionValidationService;
     }
 
     public async Task<Guid> Handle(CreateQuizCommand command, CancellationToken cancellationToken = default)
     {
         // Validate that all questions exist
         var questionIds = command.Quiz.Questions.Select(q => q.QuestionId);
-        await _questionValidationService.ValidateQuestionsExistAsync(questionIds, cancellationToken);
+        await _questionService.ValidateQuestionsExistAsync(questionIds, cancellationToken);
 
         var quiz = new Quiz(Guid.NewGuid(), command.Quiz.Title, command.Quiz.Description);
 
