@@ -32,6 +32,7 @@ public class UserQuiz : AuditedAggregateRoot<Guid>
     {
         Status = status;
     }
+
     public void AddAnswer(UserAnswer answer)
     {
         if (Status == UserQuizStatus.NotStarted)
@@ -39,5 +40,26 @@ public class UserQuiz : AuditedAggregateRoot<Guid>
             ChangeStatus(UserQuizStatus.InProgress);
         }
         Answers.Add(answer);
+    }
+
+    public void ProcessAnswers(IEnumerable<UserAnswer> newAnswers, IDictionary<Guid, Guid> correctAnswers)
+    {
+        if (Status == UserQuizStatus.Completed)
+            throw new InvalidOperationException("Quiz already completed.");
+
+        foreach (var answer in newAnswers)
+        {
+            // Check if already answered
+            if (Answers.Any(a => a.QuizQuestionId == answer.QuizQuestionId))
+                continue;
+            // Set correctness
+            if (correctAnswers.TryGetValue(answer.QuizQuestionId, out Guid correct))
+            {
+                answer.IsCorrect = answer.QuizQuestionId == correct;
+            }
+            AddAnswer(answer);
+        }
+        // TODO: CompleteIfAllAnswered();
+        // TODO: If quiz is Completed, Raise event for notification service (quiz completed)
     }
 }
