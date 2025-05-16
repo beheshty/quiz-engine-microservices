@@ -28,7 +28,7 @@ public class UserQuiz : AuditedAggregateRoot<Guid>
     public TimeSpan? TimeTaken { get; set; }
     public ICollection<UserAnswer> Answers { get; set; } = [];
 
-    private void ChangeStatus(UserQuizStatus status)
+    public void ChangeStatus(UserQuizStatus status)
     {
         Status = status;
     }
