@@ -15,13 +15,3 @@ public class CreateQuizDto
     [Required]
     public List<QuizQuestionDto> Questions { get; set; } = [];
 }
-
-public class QuizQuestionDto
-{
-    [Required]
-    public Guid QuestionId { get; set; }
-
-    [Required]
-    [Range(1, int.MaxValue)]
-    public int Order { get; set; }
-} 

@@ -47,6 +47,11 @@ public class UserQuiz : AuditedAggregateRoot<Guid>
         if (Status == UserQuizStatus.Completed)
             throw new InvalidOperationException("Quiz already completed.");
 
+        if(newAnswers.Any(a => !correctAnswers.Any(c => c.Key == a.QuizQuestionId)))
+        {
+            throw new InvalidOperationException("Questions does not exist in the quiz.");
+        }
+
         foreach (var answer in newAnswers)
         {
             // Check if already answered
@@ -55,11 +60,25 @@ public class UserQuiz : AuditedAggregateRoot<Guid>
             // Set correctness
             if (correctAnswers.TryGetValue(answer.QuizQuestionId, out Guid correct))
             {
-                answer.IsCorrect = answer.QuizQuestionId == correct;
+                answer.IsCorrect = Guid.Parse(answer.AnswerText) == correct;
             }
             AddAnswer(answer);
         }
-        // TODO: CompleteIfAllAnswered();
-        // TODO: If quiz is Completed, Raise event for notification service (quiz completed)
+        if (Answers.Count >= correctAnswers.Count)
+        {
+            CompleteQuiz();
+        }
+    }
+
+    private void CompleteQuiz()
+    {
+        ChangeStatus(UserQuizStatus.Completed);
+        ChangeStatus(UserQuizStatus.Completed);
+        CompletedAt = DateTime.UtcNow;
+        CorrectCount = Answers.Count(a => a.IsCorrect);
+        WrongCount = Answers.Count(a => !a.IsCorrect);
+        TimeTaken = CompletedAt - StartedAt;
+
+        // TODO: Raise event for notification service (quiz completed)
     }
 }

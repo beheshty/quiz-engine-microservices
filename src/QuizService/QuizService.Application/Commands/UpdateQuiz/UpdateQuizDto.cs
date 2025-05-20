@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using QuizService.Application.Commands.CreateQuiz;
+using System.ComponentModel.DataAnnotations;
 
 namespace QuizService.Application.Commands.UpdateQuiz;
 
@@ -16,12 +17,3 @@ public class UpdateQuizDto
     public List<QuizQuestionDto> Questions { get; set; } = [];
 }
 
-public class QuizQuestionDto
-{
-    [Required]
-    public Guid QuestionId { get; set; }
-
-    [Required]
-    [Range(1, int.MaxValue)]
-    public int Order { get; set; }
-}
