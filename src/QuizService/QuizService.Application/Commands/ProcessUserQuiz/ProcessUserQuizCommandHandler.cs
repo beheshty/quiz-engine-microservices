@@ -30,16 +30,17 @@ public class ProcessUserQuizCommandHandler : ICommandHandler<ProcessUserQuizComm
 
         var quizQuestionIds = command.Answers.Select(a => a.QuizQuestionId);
         var quiz = await _quizRepository.GetAsync(userQuiz.QuizId, cancellationToken);
-        var questionIds = quiz.Questions.Where(q=> quizQuestionIds.Contains(q.Id)).Select(a => a.QuestionId);
+        var questionIds = quiz.Questions.Select(a => a.QuestionId);
         var questionResponse = await _questionService.GetQuestionsByIdsAsync(questionIds, cancellationToken);
         var correctAnswers = questionResponse.Questions.ToDictionary(
             q => quiz.Questions.First(qq => qq.QuestionId.ToString() == q.Id).Id,
             q => Guid.Parse(q.CorrectAnswerOptionId)
         );
 
-        var userAnswers = CreateUserAnswers(command, userQuiz.Id);
+        var userAnswers = CreateUserAnswers(command);
 
         userQuiz.ProcessAnswers(userAnswers, correctAnswers);
+       
         await _userQuizRepository.UpdateAsync(userQuiz, true, cancellationToken);
 
         return new ProcessUserQuizResultDto
@@ -57,12 +58,10 @@ public class ProcessUserQuizCommandHandler : ICommandHandler<ProcessUserQuizComm
             throw new InvalidOperationException("Quiz already completed.");
     }
 
-    private static IEnumerable<UserAnswer> CreateUserAnswers(ProcessUserQuizCommand command, Guid userQuizId)
+    private static IEnumerable<UserAnswer> CreateUserAnswers(ProcessUserQuizCommand command)
     {
         return command.Answers.Select(a => new UserAnswer
         {
-            Id = Guid.NewGuid(),
-            UserQuizId = userQuizId,
             QuizQuestionId = a.QuizQuestionId,
             AnswerText = a.AnswerText,
             AnsweredAt = DateTime.UtcNow
