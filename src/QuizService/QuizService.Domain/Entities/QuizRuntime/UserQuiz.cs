@@ -14,7 +14,7 @@ public class UserQuiz : AuditedAggregateRoot<Guid>
 
     private UserQuiz()
     {
-        StartedAt = DateTime.Now;
+        StartedAt = DateTime.UtcNow;
         Status = UserQuizStatus.NotStarted;
     }
     public Guid UserId { get; set; }
@@ -26,7 +26,7 @@ public class UserQuiz : AuditedAggregateRoot<Guid>
     public int? CorrectCount { get; set; }
     public int? WrongCount { get; set; }
     public TimeSpan? TimeTaken { get; set; }
-    public ICollection<UserAnswer> Answers { get; set; } = [];
+    public virtual ICollection<UserAnswer> Answers { get; set; } = [];
 
     public void ChangeStatus(UserQuizStatus status)
     {
@@ -72,7 +72,6 @@ public class UserQuiz : AuditedAggregateRoot<Guid>
 
     private void CompleteQuiz()
     {
-        ChangeStatus(UserQuizStatus.Completed);
         ChangeStatus(UserQuizStatus.Completed);
         CompletedAt = DateTime.UtcNow;
         CorrectCount = Answers.Count(a => a.IsCorrect);
