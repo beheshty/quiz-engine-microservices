@@ -4,6 +4,7 @@ using QuizService.Domain.Filters;
 using QuizService.Infrastructure.Data;
 using QuizService.Infrastructure.Repositories.Base;
 using Microsoft.EntityFrameworkCore;
+using Shared.Domain.Exceptions;
 
 namespace QuizService.Infrastructure.Repositories;
 
@@ -38,5 +39,15 @@ public class QuizRepository : EfRepository<Quiz, Guid>, IQuizRepository
         }
 
         return await query.ToListAsync(cancellationToken);
+    }
+
+    public override Task<Quiz> GetAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        var entity = DbSet.Include(q => q.Questions).FirstAsync(q => q.Id == id);
+        if (entity == null)
+        {
+            throw new EntityNotFoundException(typeof(Quiz), id);
+        }
+        return entity;
     }
 } 

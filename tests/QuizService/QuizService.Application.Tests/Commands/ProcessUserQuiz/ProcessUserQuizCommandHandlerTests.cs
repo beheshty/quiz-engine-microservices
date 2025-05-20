@@ -1,6 +1,7 @@
 using Moq;
 using QuizService.Application.Commands.ProcessUserQuiz;
 using QuizService.Application.Services;
+using QuizService.Domain.Entities.QuizManagement;
 using QuizService.Domain.Entities.QuizRuntime;
 using QuizService.Domain.Enums;
 using QuizService.Domain.Repositories;
@@ -13,15 +14,18 @@ public class ProcessUserQuizCommandHandlerTests
 {
     private readonly Mock<IUserQuizRepository> _userQuizRepositoryMock;
     private readonly Mock<IQuestionService> _questionServiceMock;
+    private readonly Mock<IQuizRepository> _quizRepositoryMock;
     private readonly ProcessUserQuizCommandHandler _handler;
 
     public ProcessUserQuizCommandHandlerTests()
     {
         _userQuizRepositoryMock = new Mock<IUserQuizRepository>();
         _questionServiceMock = new Mock<IQuestionService>();
+        _quizRepositoryMock = new Mock<IQuizRepository>();
         _handler = new ProcessUserQuizCommandHandler(
             _userQuizRepositoryMock.Object,
-            _questionServiceMock.Object);
+            _questionServiceMock.Object,
+            _quizRepositoryMock.Object);
     }
 
     [Fact]
@@ -60,20 +64,39 @@ public class ProcessUserQuizCommandHandlerTests
         var userId = Guid.NewGuid();
         var quizId = Guid.NewGuid();
         var userQuiz = new UserQuiz(userQuizId, userId, quizId);
+        var quiz = new Quiz(quizId, "Sample Quiz", "Description");
+        quiz.AddQuestions(new List<QuizQuestion>()
+        {
+            new()
+            {
+                Id = Guid.NewGuid(),
+                Order = 1,
+                QuestionId = Guid.NewGuid(),
+                QuizId = quiz.Id,
+            },
+            new()
+            {
+                Id = Guid.NewGuid(),
+                Order = 2,
+                QuestionId = Guid.NewGuid(),
+                QuizId = quiz.Id,
+            },
+        });
         var answers = new List<UserQuizAnswerDto>
         {
-            new UserQuizAnswerDto { QuizQuestionId = Guid.NewGuid(), AnswerText = "A" },
-            new UserQuizAnswerDto { QuizQuestionId = Guid.NewGuid(), AnswerText = "B" }
+            new() { QuizQuestionId = quiz.Questions.First().Id, AnswerText = Guid.NewGuid().ToString() },
+            new() { QuizQuestionId = quiz.Questions.Last().Id, AnswerText = Guid.NewGuid().ToString() }
         };
         var command = new ProcessUserQuizCommand(userQuizId, userId, answers);
         _userQuizRepositoryMock.Setup(x => x.GetAsync(userQuizId, default)).ReturnsAsync(userQuiz);
+        _quizRepositoryMock.Setup(x => x.GetAsync(quizId, default)).ReturnsAsync(quiz);
         _questionServiceMock.Setup(x => x.GetQuestionsByIdsAsync(It.IsAny<IEnumerable<Guid>>(), default))
             .ReturnsAsync(new GetQuestionsResponse
             {
                 Questions =
                 {
-                    new Question { Id = answers[0].QuizQuestionId.ToString(), CorrectAnswerOptionId = answers[0].QuizQuestionId.ToString() },
-                    new Question { Id = answers[1].QuizQuestionId.ToString(), CorrectAnswerOptionId = answers[1].QuizQuestionId.ToString() }
+                    new Question { Id = quiz.Questions.First().QuestionId.ToString(), CorrectAnswerOptionId = answers[0].AnswerText },
+                    new Question { Id = quiz.Questions.Last().QuestionId.ToString(), CorrectAnswerOptionId = answers[1].AnswerText }
                 }
             });
         _userQuizRepositoryMock.Setup(x => x.UpdateAsync(userQuiz, true, default)).ReturnsAsync(userQuiz);

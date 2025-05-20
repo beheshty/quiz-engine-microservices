@@ -11,48 +11,61 @@ public class ProcessUserQuizCommandHandler : ICommandHandler<ProcessUserQuizComm
 {
     private readonly IUserQuizRepository _userQuizRepository;
     private readonly IQuestionService _questionService;
+    private readonly IQuizRepository _quizRepository;
 
     public ProcessUserQuizCommandHandler(
         IUserQuizRepository userQuizRepository,
-        IQuestionService questionService)
+        IQuestionService questionService,
+        IQuizRepository quizRepository)
     {
         _userQuizRepository = userQuizRepository;
         _questionService = questionService;
+        _quizRepository = quizRepository;
     }
 
     public async Task<ProcessUserQuizResultDto> Handle(ProcessUserQuizCommand command, CancellationToken cancellationToken = default)
     {
         var userQuiz = await _userQuizRepository.GetAsync(command.UserQuizId, cancellationToken);
-        if (userQuiz == null || userQuiz.UserId != command.UserId)
-            throw new EntityNotFoundException(typeof(UserQuiz), command.UserQuizId);
-        if (userQuiz.Status == UserQuizStatus.Completed)
-            throw new InvalidOperationException("Quiz already completed.");
+        ValidateUserQuiz(userQuiz, command.UserId);
 
-        var questionIds = command.Answers.Select(a => a.QuizQuestionId);
+        var quizQuestionIds = command.Answers.Select(a => a.QuizQuestionId);
+        var quiz = await _quizRepository.GetAsync(userQuiz.QuizId, cancellationToken);
+        var questionIds = quiz.Questions.Where(q=> quizQuestionIds.Contains(q.Id)).Select(a => a.QuestionId);
         var questionResponse = await _questionService.GetQuestionsByIdsAsync(questionIds, cancellationToken);
         var correctAnswers = questionResponse.Questions.ToDictionary(
-            q => Guid.Parse(q.Id),
+            q => quiz.Questions.First(qq => qq.QuestionId.ToString() == q.Id).Id,
             q => Guid.Parse(q.CorrectAnswerOptionId)
         );
 
-        var userAnswers = command.Answers.Select(a => new UserAnswer
-        {
-            Id = Guid.NewGuid(),
-            UserQuizId = userQuiz.Id,
-            QuizQuestionId = a.QuizQuestionId,
-            AnswerText = a.AnswerText,
-            AnsweredAt = DateTime.UtcNow
-        });
+        var userAnswers = CreateUserAnswers(command, userQuiz.Id);
 
         userQuiz.ProcessAnswers(userAnswers, correctAnswers);
         await _userQuizRepository.UpdateAsync(userQuiz, true, cancellationToken);
 
-        var result = new ProcessUserQuizResultDto
+        return new ProcessUserQuizResultDto
         {
             UserQuizId = userQuiz.Id,
             Status = userQuiz.Status,
         };
+    }
 
-        return result;
+    private static void ValidateUserQuiz(UserQuiz? userQuiz, Guid userId)
+    {
+        if (userQuiz == null || userQuiz.UserId != userId)
+            throw new EntityNotFoundException(typeof(UserQuiz), userQuiz?.Id ?? Guid.Empty);
+        if (userQuiz.Status == UserQuizStatus.Completed)
+            throw new InvalidOperationException("Quiz already completed.");
+    }
+
+    private static IEnumerable<UserAnswer> CreateUserAnswers(ProcessUserQuizCommand command, Guid userQuizId)
+    {
+        return command.Answers.Select(a => new UserAnswer
+        {
+            Id = Guid.NewGuid(),
+            UserQuizId = userQuizId,
+            QuizQuestionId = a.QuizQuestionId,
+            AnswerText = a.AnswerText,
+            AnsweredAt = DateTime.UtcNow
+        });
     }
 }
