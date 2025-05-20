@@ -43,7 +43,7 @@ public class QuizRepository : EfRepository<Quiz, Guid>, IQuizRepository
 
     public override Task<Quiz> GetAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        var entity = DbSet.Include(q => q.Questions).FirstAsync(q => q.Id == id);
+        var entity = DbSet.Include(q => q.Questions).FirstOrDefaultAsync(q => q.Id == id);
         if (entity == null)
         {
             throw new EntityNotFoundException(typeof(Quiz), id);
