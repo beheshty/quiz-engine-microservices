@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\QuizService\QuizService.Application\QuizService.Application.csproj" />
+    <ProjectReference Include="..\..\..\src\Services\QuizService\QuizService.Application\QuizService.Application.csproj" />
   </ItemGroup>
 
 </Project>
