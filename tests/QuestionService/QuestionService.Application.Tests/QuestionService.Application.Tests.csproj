@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\QuestionService\QuestionService.Application\QuestionService.Application.csproj" />
+    <ProjectReference Include="..\..\..\src\Services\QuestionService\QuestionService.Application\QuestionService.Application.csproj" />
   </ItemGroup>
 
 </Project> 

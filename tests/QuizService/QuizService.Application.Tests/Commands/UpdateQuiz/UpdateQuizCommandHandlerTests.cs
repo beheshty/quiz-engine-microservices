@@ -1,11 +1,11 @@
 using Moq;
+using QuizService.Application.Commands.CreateQuiz;
 using QuizService.Application.Commands.UpdateQuiz;
 using QuizService.Application.Services;
 using QuizService.Domain.Entities.QuizManagement;
 using QuizService.Domain.Enums;
 using QuizService.Domain.Repositories;
 using Shared.Domain.Exceptions;
-using Xunit;
 
 namespace QuizService.Application.Tests.Commands.UpdateQuiz;
 

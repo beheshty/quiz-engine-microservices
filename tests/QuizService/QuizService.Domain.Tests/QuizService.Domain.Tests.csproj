@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\QuizService\QuizService.Domain\QuizService.Domain.csproj" />
+    <ProjectReference Include="..\..\..\src\Services\QuizService\QuizService.Domain\QuizService.Domain.csproj" />
   </ItemGroup>
 
 </Project> 

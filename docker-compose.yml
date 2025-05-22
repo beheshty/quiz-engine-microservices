@@ -5,7 +5,7 @@ services:
     image: ${DOCKER_REGISTRY-}questionserviceapi
     build:
       context: .
-      dockerfile: src/QuestionService/QuestionService.API/Dockerfile
+      dockerfile: src/Services/QuestionService/QuestionService.API/Dockerfile
     ports:
       - "8080:80"
     environment:
@@ -22,7 +22,7 @@ services:
     image: ${DOCKER_REGISTRY-}questionservicegrpc
     build:
       context: .
-      dockerfile: src/QuestionService/QuestionService.Grpc/Dockerfile
+      dockerfile: src/Services/QuestionService/QuestionService.Grpc/Dockerfile
     ports:
       - "8081:8080"
       - "8082:8081"
@@ -40,7 +40,7 @@ services:
     image: ${DOCKER_REGISTRY-}quizserviceapi
     build:
       context: .
-      dockerfile: src/QuizService/QuizService.API/Dockerfile
+      dockerfile: src/Services/QuizService/QuizService.API/Dockerfile
     ports:
       - "8083:80"
     environment:

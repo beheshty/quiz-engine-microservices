@@ -17,29 +17,29 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "QuestionService", "Question
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UserService", "UserService", "{8EEC121F-3C19-47CD-9B11-CE238F29404E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Domain", "src\Shared\Shared.Domain\Shared.Domain.csproj", "{F518FA80-D252-4A64-ADB4-B67210D471EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Domain", "src\Services\Shared\Shared.Domain\Shared.Domain.csproj", "{F518FA80-D252-4A64-ADB4-B67210D471EA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuestionService.Domain", "src\QuestionService\QuestionService.Domain\QuestionService.Domain.csproj", "{3110831F-3F40-4C65-8EA5-531D917F7676}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuestionService.Domain", "src\Services\QuestionService\QuestionService.Domain\QuestionService.Domain.csproj", "{3110831F-3F40-4C65-8EA5-531D917F7676}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuestionService.Application", "src\QuestionService\QuestionService.Application\QuestionService.Application.csproj", "{9F4C3BF0-62F6-4A36-9410-F3E7D28C712C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuestionService.Application", "src\Services\QuestionService\QuestionService.Application\QuestionService.Application.csproj", "{9F4C3BF0-62F6-4A36-9410-F3E7D28C712C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuestionService.Infrastructure", "src\QuestionService\QuestionService.Infrastructure\QuestionService.Infrastructure.csproj", "{534FCDB3-33DB-4182-B1F9-8010497ABC6E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuestionService.Infrastructure", "src\Services\QuestionService\QuestionService.Infrastructure\QuestionService.Infrastructure.csproj", "{534FCDB3-33DB-4182-B1F9-8010497ABC6E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuestionService.API", "src\QuestionService\QuestionService.API\QuestionService.API.csproj", "{5B2C8D02-6A67-40F9-940C-4ACF44F1F103}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuestionService.API", "src\Services\QuestionService\QuestionService.API\QuestionService.API.csproj", "{5B2C8D02-6A67-40F9-940C-4ACF44F1F103}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuestionService.Application.Tests", "tests\QuestionService\QuestionService.Application.Tests\QuestionService.Application.Tests.csproj", "{EACEE6C1-9EFF-42A0-98E2-E02039D3BE20}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuizService.API", "src\QuizService\QuizService.API\QuizService.API.csproj", "{DD718E55-84C6-47CA-8104-0EB97E4364CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuizService.API", "src\Services\QuizService\QuizService.API\QuizService.API.csproj", "{DD718E55-84C6-47CA-8104-0EB97E4364CE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuizService.Application", "src\QuizService\QuizService.Application\QuizService.Application.csproj", "{CC4CE3F9-6375-4B41-BA55-8673871E9D81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuizService.Application", "src\Services\QuizService\QuizService.Application\QuizService.Application.csproj", "{CC4CE3F9-6375-4B41-BA55-8673871E9D81}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuizService.Domain", "src\QuizService\QuizService.Domain\QuizService.Domain.csproj", "{786FB233-358F-453F-A925-5DC2CE17FD4D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuizService.Domain", "src\Services\QuizService\QuizService.Domain\QuizService.Domain.csproj", "{786FB233-358F-453F-A925-5DC2CE17FD4D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuizService.Infrastructure", "src\QuizService\QuizService.Infrastructure\QuizService.Infrastructure.csproj", "{B8493658-1FC6-4061-8D2D-963915E3D179}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuizService.Infrastructure", "src\Services\QuizService\QuizService.Infrastructure\QuizService.Infrastructure.csproj", "{B8493658-1FC6-4061-8D2D-963915E3D179}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuizService.Application.Tests", "tests\QuizService\QuizService.Application.Tests\QuizService.Application.Tests.csproj", "{8FC6AEDD-DD3A-4796-BC0A-41A0F33C194C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionService.Grpc", "src\QuestionService\QuestionService.Grpc\QuestionService.Grpc.csproj", "{0DD22478-1F03-53AD-8A2F-016AAD31F411}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionService.Grpc", "src\Services\QuestionService\QuestionService.Grpc\QuestionService.Grpc.csproj", "{0DD22478-1F03-53AD-8A2F-016AAD31F411}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{81DDED9D-158B-E303-5F62-77A2896D2A5A}"
 EndProject
@@ -49,7 +49,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "QuestionService", "Question
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "QuizService", "QuizService", "{D20BD56E-AF83-4E86-9FDB-993A1016379D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Question.Grpc.Proto", "src\Shared\Shared.Question.Grpc.Proto\Shared.Question.Grpc.Proto.csproj", "{E8421CB1-31D8-4672-ADAC-92FC6A2A2DED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Question.Grpc.Proto", "src\Services\Shared\Shared.Question.Grpc.Proto\Shared.Question.Grpc.Proto.csproj", "{E8421CB1-31D8-4672-ADAC-92FC6A2A2DED}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{728B1D03-DEAC-439E-9AAB-D8BD53D893D9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingBlocks", "{7AC9FBC4-C34C-432B-8CB8-DB452B3F652A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -122,11 +126,11 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{D68B7F3B-DDEF-4006-B331-8B233CB60074} = {41AE6A66-E67D-4F93-B3BA-B189A9AADBE5}
-		{7282354D-59AC-433A-81DD-F6E363790B5A} = {41AE6A66-E67D-4F93-B3BA-B189A9AADBE5}
-		{D657E525-9001-4534-88FE-CA7D24129D97} = {41AE6A66-E67D-4F93-B3BA-B189A9AADBE5}
-		{B7040F32-9567-468F-BE50-F41DF45A1540} = {41AE6A66-E67D-4F93-B3BA-B189A9AADBE5}
-		{8EEC121F-3C19-47CD-9B11-CE238F29404E} = {41AE6A66-E67D-4F93-B3BA-B189A9AADBE5}
+		{D68B7F3B-DDEF-4006-B331-8B233CB60074} = {728B1D03-DEAC-439E-9AAB-D8BD53D893D9}
+		{7282354D-59AC-433A-81DD-F6E363790B5A} = {728B1D03-DEAC-439E-9AAB-D8BD53D893D9}
+		{D657E525-9001-4534-88FE-CA7D24129D97} = {728B1D03-DEAC-439E-9AAB-D8BD53D893D9}
+		{B7040F32-9567-468F-BE50-F41DF45A1540} = {728B1D03-DEAC-439E-9AAB-D8BD53D893D9}
+		{8EEC121F-3C19-47CD-9B11-CE238F29404E} = {728B1D03-DEAC-439E-9AAB-D8BD53D893D9}
 		{F518FA80-D252-4A64-ADB4-B67210D471EA} = {D68B7F3B-DDEF-4006-B331-8B233CB60074}
 		{3110831F-3F40-4C65-8EA5-531D917F7676} = {B7040F32-9567-468F-BE50-F41DF45A1540}
 		{9F4C3BF0-62F6-4A36-9410-F3E7D28C712C} = {B7040F32-9567-468F-BE50-F41DF45A1540}
@@ -143,6 +147,8 @@ Global
 		{02EA681E-C7D8-13C7-8484-4AC65E1B71E8} = {2553874B-AB6A-4E6A-89E9-6C62A0296BA7}
 		{D20BD56E-AF83-4E86-9FDB-993A1016379D} = {2553874B-AB6A-4E6A-89E9-6C62A0296BA7}
 		{E8421CB1-31D8-4672-ADAC-92FC6A2A2DED} = {D68B7F3B-DDEF-4006-B331-8B233CB60074}
+		{728B1D03-DEAC-439E-9AAB-D8BD53D893D9} = {41AE6A66-E67D-4F93-B3BA-B189A9AADBE5}
+		{7AC9FBC4-C34C-432B-8CB8-DB452B3F652A} = {41AE6A66-E67D-4F93-B3BA-B189A9AADBE5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CAD04425-5E97-4B25-878B-32011A20D8FC}
