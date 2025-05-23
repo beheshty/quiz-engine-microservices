@@ -61,7 +61,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlocks.EventBus", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlocks.EventBus.Abstraction", "src\BuildingBlocks\BuildingBlocks.EventBus.Abstraction\BuildingBlocks.EventBus.Abstraction.csproj", "{1F8FEB23-0237-4F69-BC2F-CB609CF5DE65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlocks.EventBus.Distributed.RabitMQ", "src\BuildingBlocks\BuildingBlocks.EventBus.Distributed.RabitMQ\BuildingBlocks.EventBus.Distributed.RabitMQ.csproj", "{AE838E4A-7650-465E-B7F9-0A424E9AE956}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlocks.EventBus.Distributed.RabbitMQ", "src\BuildingBlocks\BuildingBlocks.EventBus.Distributed.RabbitMQ\BuildingBlocks.EventBus.Distributed.RabbitMQ.csproj", "{AE838E4A-7650-465E-B7F9-0A424E9AE956}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
