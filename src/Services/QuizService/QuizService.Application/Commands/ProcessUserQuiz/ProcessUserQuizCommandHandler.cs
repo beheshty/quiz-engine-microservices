@@ -12,15 +12,18 @@ public class ProcessUserQuizCommandHandler : ICommandHandler<ProcessUserQuizComm
     private readonly IUserQuizRepository _userQuizRepository;
     private readonly IQuestionService _questionService;
     private readonly IQuizRepository _quizRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
     public ProcessUserQuizCommandHandler(
         IUserQuizRepository userQuizRepository,
         IQuestionService questionService,
-        IQuizRepository quizRepository)
+        IQuizRepository quizRepository,
+        IUnitOfWork unitOfWork)
     {
         _userQuizRepository = userQuizRepository;
         _questionService = questionService;
         _quizRepository = quizRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<ProcessUserQuizResultDto> Handle(ProcessUserQuizCommand command, CancellationToken cancellationToken = default)
@@ -41,7 +44,9 @@ public class ProcessUserQuizCommandHandler : ICommandHandler<ProcessUserQuizComm
 
         userQuiz.ProcessAnswers(userAnswers, correctAnswers);
        
-        await _userQuizRepository.UpdateAsync(userQuiz, true, cancellationToken);
+        await _userQuizRepository.UpdateAsync(userQuiz, cancellationToken: cancellationToken);
+
+        await _unitOfWork.CompleteAsync(cancellationToken);
 
         return new ProcessUserQuizResultDto
         {

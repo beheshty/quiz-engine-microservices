@@ -15,6 +15,7 @@ public class ProcessUserQuizCommandHandlerTests
     private readonly Mock<IUserQuizRepository> _userQuizRepositoryMock;
     private readonly Mock<IQuestionService> _questionServiceMock;
     private readonly Mock<IQuizRepository> _quizRepositoryMock;
+    private readonly Mock<IUnitOfWork> _unitOfWorkMock;
     private readonly ProcessUserQuizCommandHandler _handler;
 
     public ProcessUserQuizCommandHandlerTests()
@@ -22,10 +23,12 @@ public class ProcessUserQuizCommandHandlerTests
         _userQuizRepositoryMock = new Mock<IUserQuizRepository>();
         _questionServiceMock = new Mock<IQuestionService>();
         _quizRepositoryMock = new Mock<IQuizRepository>();
+        _unitOfWorkMock = new Mock<IUnitOfWork>();
         _handler = new ProcessUserQuizCommandHandler(
             _userQuizRepositoryMock.Object,
             _questionServiceMock.Object,
-            _quizRepositoryMock.Object);
+            _quizRepositoryMock.Object,
+            _unitOfWorkMock.Object);
     }
 
     [Fact]
@@ -99,13 +102,13 @@ public class ProcessUserQuizCommandHandlerTests
                     new Question { Id = quiz.Questions.Last().QuestionId.ToString(), CorrectAnswerOptionId = answers[1].AnswerText }
                 }
             });
-        _userQuizRepositoryMock.Setup(x => x.UpdateAsync(userQuiz, true, default)).ReturnsAsync(userQuiz);
+        _userQuizRepositoryMock.Setup(x => x.UpdateAsync(userQuiz, false, It.IsAny<CancellationToken>())).ReturnsAsync(userQuiz);
 
         // Act
         var result = await _handler.Handle(command, default);
 
         // Assert
-        _userQuizRepositoryMock.Verify(x => x.UpdateAsync(userQuiz, true, default), Times.Once);
+        _userQuizRepositoryMock.Verify(x => x.UpdateAsync(userQuiz, false, It.IsAny<CancellationToken>()), Times.Once);
         Assert.Equal(userQuizId, result.UserQuizId);
         Assert.Equal(userQuiz.Status, result.Status);
     }

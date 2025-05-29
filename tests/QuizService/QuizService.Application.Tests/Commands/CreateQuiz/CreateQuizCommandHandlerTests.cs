@@ -10,15 +10,18 @@ public class CreateQuizCommandHandlerTests
 {
     private readonly Mock<IQuizRepository> _quizRepositoryMock;
     private readonly Mock<IQuestionService> _questionValidationServiceMock;
+    private readonly Mock<IUnitOfWork> _unitOfWorkMock;
     private readonly CreateQuizCommandHandler _handler;
 
     public CreateQuizCommandHandlerTests()
     {
         _quizRepositoryMock = new Mock<IQuizRepository>();
         _questionValidationServiceMock = new Mock<IQuestionService>();
+        _unitOfWorkMock = new Mock<IUnitOfWork>();
         _handler = new CreateQuizCommandHandler(
             _quizRepositoryMock.Object,
-            _questionValidationServiceMock.Object);
+            _questionValidationServiceMock.Object,
+            _unitOfWorkMock.Object);
     }
 
     [Fact]
@@ -52,11 +55,10 @@ public class CreateQuizCommandHandlerTests
                 q.Questions.Count == command.Quiz.Questions.Count &&
                 q.Questions.All(qq => command.Quiz.Questions.Any(cq => 
                     qq.QuestionId == cq.QuestionId && 
-                    qq.Order == cq.Order))),
-            It.Is<bool>(autoSave => autoSave == true),
-            default))
-            .Callback<Quiz, bool, CancellationToken>((quiz, _, _) => savedQuiz = quiz)
-            .ReturnsAsync((Quiz quiz, bool _, CancellationToken _) => quiz);
+                    qq.Order == cq.Order))), false,
+            It.IsAny<CancellationToken>()))
+            .Callback<Quiz, CancellationToken>((quiz, _) => savedQuiz = quiz)
+            .ReturnsAsync((Quiz quiz, CancellationToken _) => quiz);
 
         // Act
         var result = await _handler.Handle(command, default);
@@ -78,9 +80,8 @@ public class CreateQuizCommandHandlerTests
                 q.Questions.Count == command.Quiz.Questions.Count &&
                 q.Questions.All(qq => command.Quiz.Questions.Any(cq => 
                     qq.QuestionId == cq.QuestionId && 
-                    qq.Order == cq.Order))),
-            It.Is<bool>(autoSave => autoSave == true),
-            default), 
+                    qq.Order == cq.Order))), false,
+            It.IsAny<CancellationToken>()), 
             Times.Once);
         
         Assert.NotNull(savedQuiz);
@@ -125,8 +126,7 @@ public class CreateQuizCommandHandlerTests
         Assert.Equal("Some questions do not exist", exception.Message);
         
         _quizRepositoryMock.Verify(x => x.InsertAsync(
-            It.IsAny<Quiz>(),
-            It.IsAny<bool>(),
+            It.IsAny<Quiz>(), false,
             It.IsAny<CancellationToken>()),
             Times.Never);
     }
@@ -159,8 +159,7 @@ public class CreateQuizCommandHandlerTests
         Assert.Same(expectedException, actualException);
         
         _quizRepositoryMock.Verify(x => x.InsertAsync(
-            It.IsAny<Quiz>(),
-            It.IsAny<bool>(),
+            It.IsAny<Quiz>(), false,
             It.IsAny<CancellationToken>()),
             Times.Never);
     }

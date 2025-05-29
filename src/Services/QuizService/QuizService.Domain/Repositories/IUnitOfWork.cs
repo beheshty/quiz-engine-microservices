@@ -3,6 +3,6 @@ namespace QuizService.Domain.Repositories
 {
     public interface IUnitOfWork
     {
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+        Task<int> CompleteAsync(CancellationToken cancellationToken = default);
     }
 } 

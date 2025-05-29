@@ -11,12 +11,14 @@ namespace QuizService.Application.Tests.Commands.DeleteQuiz;
 public class DeleteQuizCommandHandlerTests
 {
     private readonly Mock<IQuizRepository> _quizRepositoryMock;
+    private readonly Mock<IUnitOfWork> _unitOfWorkMock;
     private readonly DeleteQuizCommandHandler _handler;
 
     public DeleteQuizCommandHandlerTests()
     {
         _quizRepositoryMock = new Mock<IQuizRepository>();
-        _handler = new DeleteQuizCommandHandler(_quizRepositoryMock.Object);
+        _unitOfWorkMock = new Mock<IUnitOfWork>();
+        _handler = new DeleteQuizCommandHandler(_quizRepositoryMock.Object, _unitOfWorkMock.Object);
     }
 
     [Fact]
@@ -65,8 +67,7 @@ public class DeleteQuizCommandHandlerTests
             .ReturnsAsync(quiz);
 
         _quizRepositoryMock.Setup(x => x.DeleteAsync(
-                It.Is<Quiz>(q => q.Id == quizId),
-                true,
+                It.Is<Quiz>(q => q.Id == quizId), false,
                 It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
 
@@ -82,8 +83,7 @@ public class DeleteQuizCommandHandlerTests
             Times.Once);
             
         _quizRepositoryMock.Verify(x => x.DeleteAsync(
-            It.Is<Quiz>(q => q.Id == quizId),
-            true,
+            It.Is<Quiz>(q => q.Id == quizId), false,
             It.IsAny<CancellationToken>()),
             Times.Once);
     }
