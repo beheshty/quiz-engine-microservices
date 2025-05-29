@@ -11,8 +11,4 @@
     <ProjectReference Include="..\..\Shared\Shared.Domain\Shared.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Entities\QuizRuntime\" />
-  </ItemGroup>
-
 </Project>
