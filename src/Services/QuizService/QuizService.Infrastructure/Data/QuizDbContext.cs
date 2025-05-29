@@ -19,7 +19,6 @@ public class QuizDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
         
-        // Configure entity relationships and constraints here
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(QuizDbContext).Assembly);
     }
 } 
