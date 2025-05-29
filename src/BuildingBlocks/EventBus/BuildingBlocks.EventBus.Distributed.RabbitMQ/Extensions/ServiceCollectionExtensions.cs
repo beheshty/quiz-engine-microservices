@@ -60,13 +60,12 @@ namespace BuildingBlocks.EventBus.Distributed.RabbitMQ.Extensions
                     continue;
                 brc.AddConsumer(consumerType);
 
-                rfc.ReceiveEndpoint(attribute.QueueName, e =>
+                rfc.ReceiveEndpoint(attribute.Subscription, e =>
                 {
-                    e.Bind(attribute.ExchangeName, x =>
+                    e.Bind(attribute.Destination, x =>
                     {
-                        x.ExchangeType = attribute.ExchangeType.ToString().ToLower();
+                        x.ExchangeType = attribute.DistributionStrategy.ToString().ToLower();
                         x.RoutingKey = messageType.FullName;
-                        x.Durable = attribute.Durable;
                     });
 
                     e.ConfigureConsumer(context, consumerType);
