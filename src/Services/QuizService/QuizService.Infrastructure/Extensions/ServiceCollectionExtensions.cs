@@ -25,6 +25,9 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IQuizRepository, QuizRepository>();
         services.AddScoped<IUserQuizRepository, UserQuizRepository>();
 
+        // Register UnitOfWork
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+
         return services;
     }
 } 

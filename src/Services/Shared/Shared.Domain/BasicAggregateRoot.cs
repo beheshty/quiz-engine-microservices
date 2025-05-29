@@ -1,4 +1,5 @@
-﻿using QuizEngineMicroservices.Shared.Domain.Events;
+﻿using BuildingBlocks.EventBus.Abstraction;
+using QuizEngineMicroservices.Shared.Domain.Events;
 
 namespace QuizEngineMicroservices.Shared.Domain;
 
@@ -24,7 +25,7 @@ public abstract class BasicAggregateRoot : Entity, IAggregateRoot, IGeneratesDom
 
     protected virtual void AddDistributedEvent(object eventData)
     {
-        _distributedEvents.Add(new DomainEventRecord(eventData, EventOrderGenerator.GetNext(), EventPublishType.Distributed));
+        _distributedEvents.Add(new DomainEventRecord(eventData, EventOrderGenerator.GetNext(), PublishType.Distributed));
     }
 
     public void ClearAllEvents()
@@ -78,7 +79,7 @@ public abstract class BasicAggregateRoot<TKey> : Entity<TKey>,
 
     protected virtual void AddDistributedEvent(object eventData)
     {
-        _distributedEvents.Add(new DomainEventRecord(eventData, EventOrderGenerator.GetNext(), EventPublishType.Distributed));
+        _distributedEvents.Add(new DomainEventRecord(eventData, EventOrderGenerator.GetNext(), PublishType.Distributed));
     }
 
     public void ClearAllEvents()
