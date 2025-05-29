@@ -16,7 +16,7 @@ namespace QuizService.Infrastructure.Repositories
             _domainEventBus = domainEventBus;
         }
 
-        public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        public async Task<int> CompleteAsync(CancellationToken cancellationToken = default)
         {
             await PublishDomainEvents(cancellationToken);
             return await _dbContext.SaveChangesAsync(cancellationToken);
