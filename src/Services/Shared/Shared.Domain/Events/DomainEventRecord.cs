@@ -1,15 +1,18 @@
-﻿namespace QuizEngineMicroservices.Shared.Domain.Events;
+﻿using BuildingBlocks.EventBus.Abstraction;
+using BuildingBlocks.EventBus.Abstraction.Domain;
+
+namespace QuizEngineMicroservices.Shared.Domain.Events;
 
 public class DomainEventRecord : IDomainEventData
 {
     public object EventData { get; }
     public long EventOrder { get; }
-    public EventPublishType DispatchType { get; }
+    public PublishType PublishType { get; }
 
-    public DomainEventRecord(object eventData, long eventOrder, EventPublishType dispatchType = EventPublishType.Local)
+    public DomainEventRecord(object eventData, long eventOrder, PublishType publishType = PublishType.Local)
     {
         EventData = eventData;
         EventOrder = eventOrder;
-        DispatchType = dispatchType;
+        PublishType = publishType;
     }
 }
