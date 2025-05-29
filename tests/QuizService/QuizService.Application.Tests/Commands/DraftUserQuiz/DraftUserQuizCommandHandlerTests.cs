@@ -12,15 +12,18 @@ public class DraftUserQuizCommandHandlerTests
 {
     private readonly Mock<IUserQuizRepository> _userQuizRepositoryMock;
     private readonly Mock<IQuizRepository> _quizRepositoryMock;
+    private readonly Mock<IUnitOfWork> _unitOfWorkMock;
     private readonly DraftUserQuizCommandHandler _handler;
 
     public DraftUserQuizCommandHandlerTests()
     {
         _userQuizRepositoryMock = new Mock<IUserQuizRepository>();
         _quizRepositoryMock = new Mock<IQuizRepository>();
+        _unitOfWorkMock = new Mock<IUnitOfWork>();
         _handler = new DraftUserQuizCommandHandler(
             _userQuizRepositoryMock.Object,
-            _quizRepositoryMock.Object);
+            _quizRepositoryMock.Object,
+            _unitOfWorkMock.Object);
     }
 
     [Fact]
@@ -39,9 +42,9 @@ public class DraftUserQuizCommandHandlerTests
         _quizRepositoryMock.Setup(x => x.GetAsync(quizId, default)).ReturnsAsync(quiz);
         UserQuiz? savedUserQuiz = null;
         _userQuizRepositoryMock.Setup(x => x.InsertAsync(
-            It.Is<UserQuiz>(uq => uq.UserId == userId && uq.QuizId == quizId),
-            true,
-            default)).Callback<UserQuiz, bool, CancellationToken>((uq, _, _) => savedUserQuiz = uq);
+            It.Is<UserQuiz>(uq => uq.UserId == userId && uq.QuizId == quizId), false,
+            It.IsAny<CancellationToken>()))
+            .Callback<UserQuiz, CancellationToken>((uq, _) => savedUserQuiz = uq);
 
         var command = new DraftUserQuizCommand(userId, quizId);
 

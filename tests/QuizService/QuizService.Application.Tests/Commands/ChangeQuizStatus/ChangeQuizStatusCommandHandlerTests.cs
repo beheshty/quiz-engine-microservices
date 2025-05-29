@@ -1,22 +1,22 @@
 using Moq;
 using QuizService.Application.Commands.ChangeQuizStatus;
-using QuizService.Domain.Entities;
 using QuizService.Domain.Entities.QuizManagement;
 using QuizService.Domain.Enums;
 using QuizService.Domain.Repositories;
-using Xunit;
 
 namespace QuizService.Application.Tests.Commands.ChangeQuizStatus;
 
 public class ChangeQuizStatusCommandHandlerTests
 {
     private readonly Mock<IQuizRepository> _quizRepositoryMock;
+    private readonly Mock<IUnitOfWork> _unitOfWorkMock;
     private readonly ChangeQuizStatusCommandHandler _handler;
 
     public ChangeQuizStatusCommandHandlerTests()
     {
         _quizRepositoryMock = new Mock<IQuizRepository>();
-        _handler = new ChangeQuizStatusCommandHandler(_quizRepositoryMock.Object);
+        _unitOfWorkMock = new Mock<IUnitOfWork>();
+        _handler = new ChangeQuizStatusCommandHandler(_quizRepositoryMock.Object, _unitOfWorkMock.Object);
     }
 
     [Theory]
@@ -28,11 +28,11 @@ public class ChangeQuizStatusCommandHandlerTests
         var quizId = Guid.NewGuid();
         var quiz = new Quiz(quizId, "Test Quiz", "Test Description");
         quiz.ChangeStatus(initialStatus);
-        
+
         _quizRepositoryMock.Setup(x => x.GetAsync(quizId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(quiz);
-        
-        _quizRepositoryMock.Setup(x => x.UpdateAsync(It.Is<Quiz>(q => q.Id == quizId && q.Status == newStatus), true, It.IsAny<CancellationToken>()))
+
+        _quizRepositoryMock.Setup(x => x.UpdateAsync(It.Is<Quiz>(q => q.Id == quizId && q.Status == newStatus), false, It.IsAny<CancellationToken>()))
             .ReturnsAsync(quiz);
 
         var command = new ChangeQuizStatusCommand
@@ -48,6 +48,6 @@ public class ChangeQuizStatusCommandHandlerTests
         Assert.Equal(newStatus, result);
         Assert.Equal(newStatus, quiz.Status);
         _quizRepositoryMock.Verify(x => x.GetAsync(quizId, It.IsAny<CancellationToken>()), Times.Once);
-        _quizRepositoryMock.Verify(x => x.UpdateAsync(It.Is<Quiz>(q => q.Id == quizId && q.Status == newStatus), true, It.IsAny<CancellationToken>()), Times.Once);
+        _quizRepositoryMock.Verify(x => x.UpdateAsync(It.Is<Quiz>(q => q.Id == quizId && q.Status == newStatus), false, It.IsAny<CancellationToken>()), Times.Once);
     }
-} 
+}

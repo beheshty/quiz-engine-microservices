@@ -13,13 +13,15 @@ public class UpdateQuizCommandHandlerTests
 {
     private readonly Mock<IQuizRepository> _quizRepositoryMock;
     private readonly Mock<IQuestionService> _questionValidationServiceMock;
+    private readonly Mock<IUnitOfWork> _unitOfWorkMock;
     private readonly UpdateQuizCommandHandler _handler;
 
     public UpdateQuizCommandHandlerTests()
     {
         _quizRepositoryMock = new Mock<IQuizRepository>();
         _questionValidationServiceMock = new Mock<IQuestionService>();
-        _handler = new UpdateQuizCommandHandler(_quizRepositoryMock.Object, _questionValidationServiceMock.Object);
+        _unitOfWorkMock = new Mock<IUnitOfWork>();
+        _handler = new UpdateQuizCommandHandler(_quizRepositoryMock.Object, _questionValidationServiceMock.Object, _unitOfWorkMock.Object);
     }
 
     [Fact]
@@ -124,8 +126,7 @@ public class UpdateQuizCommandHandlerTests
                     q.Title == command.Quiz.Title && 
                     q.Description == command.Quiz.Description && 
                     q.Questions.Single().QuestionId == questionId && 
-                    q.Questions.Single().Order == 1), 
-                true, 
+                    q.Questions.Single().Order == 1), false,
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(quiz);
 
@@ -146,8 +147,7 @@ public class UpdateQuizCommandHandlerTests
                 q.Title == command.Quiz.Title && 
                 q.Description == command.Quiz.Description && 
                 q.Questions.Single().QuestionId == questionId && 
-                q.Questions.Single().Order == 1), 
-            true, 
+                q.Questions.Single().Order == 1), false,
             It.IsAny<CancellationToken>()), 
             Times.Once);
     }
