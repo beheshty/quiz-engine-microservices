@@ -73,11 +73,20 @@ public class UserQuiz : AuditedAggregateRoot<Guid>
     private void CompleteQuiz()
     {
         ChangeStatus(UserQuizStatus.Completed);
+        
         CompletedAt = DateTime.UtcNow;
         CorrectCount = Answers.Count(a => a.IsCorrect);
         WrongCount = Answers.Count(a => !a.IsCorrect);
         TimeTaken = CompletedAt - StartedAt;
 
-        // TODO: Raise event for notification service (quiz completed)
+        AddDistributedEvent(new UserQuizCompletedDomainEvent
+        {
+            CompletedAt = CompletedAt,
+            CorrectCount = CorrectCount,
+            WrongCount = WrongCount,
+            TimeTaken = TimeTaken,
+            QuizId = QuizId,
+            UserId = UserId
+        });
     }
 }
