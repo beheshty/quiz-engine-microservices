@@ -11,13 +11,16 @@ public class DraftUserQuizCommandHandler : ICommandHandler<DraftUserQuizCommand,
 {
     private readonly IUserQuizRepository _userQuizRepository;
     private readonly IQuizRepository _quizRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
     public DraftUserQuizCommandHandler(
         IUserQuizRepository userQuizRepository,
-        IQuizRepository quizRepository)
+        IQuizRepository quizRepository,
+        IUnitOfWork unitOfWork)
     {
         _userQuizRepository = userQuizRepository;
         _quizRepository = quizRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<DraftUserQuizResultDto> Handle(DraftUserQuizCommand command, CancellationToken cancellationToken = default)
@@ -30,7 +33,9 @@ public class DraftUserQuizCommandHandler : ICommandHandler<DraftUserQuizCommand,
             throw new InvalidOperationException("Quiz must be published to start a user quiz.");
 
         var userQuiz = new UserQuiz(Guid.NewGuid(), command.UserId, command.QuizId);
-        await _userQuizRepository.InsertAsync(userQuiz, true, cancellationToken);
+        await _userQuizRepository.InsertAsync(userQuiz, cancellationToken: cancellationToken);
+
+        await _unitOfWork.CompleteAsync(cancellationToken);
 
         var result = new DraftUserQuizResultDto
         {

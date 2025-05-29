@@ -9,10 +9,12 @@ namespace QuizService.Application.Commands.DeleteQuiz;
 public class DeleteQuizCommandHandler : ICommandHandler<DeleteQuizCommand, Guid>
 {
     private readonly IQuizRepository _quizRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public DeleteQuizCommandHandler(IQuizRepository quizRepository)
+    public DeleteQuizCommandHandler(IQuizRepository quizRepository, IUnitOfWork unitOfWork)
     {
         _quizRepository = quizRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<Guid> Handle(DeleteQuizCommand command, CancellationToken cancellationToken = default)
@@ -28,7 +30,9 @@ public class DeleteQuizCommandHandler : ICommandHandler<DeleteQuizCommand, Guid>
             throw new InvalidOperationException($"Cannot delete quiz with status {quiz.Status}. Only quizzes in Draft status can be deleted.");
         }
 
-        await _quizRepository.DeleteAsync(quiz, true, cancellationToken);
+        await _quizRepository.DeleteAsync(quiz, cancellationToken: cancellationToken);
+
+        await _unitOfWork.CompleteAsync(cancellationToken);
 
         return quiz.Id;
     }

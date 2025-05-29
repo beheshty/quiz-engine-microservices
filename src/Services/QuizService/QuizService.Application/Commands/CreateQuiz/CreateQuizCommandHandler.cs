@@ -9,13 +9,16 @@ public class CreateQuizCommandHandler : ICommandHandler<CreateQuizCommand, Guid>
 {
     private readonly IQuizRepository _quizRepository;
     private readonly IQuestionService _questionService;
+    private readonly IUnitOfWork _unitOfWork;
 
     public CreateQuizCommandHandler(
         IQuizRepository quizRepository,
-        IQuestionService questionValidationService)
+        IQuestionService questionValidationService,
+        IUnitOfWork unitOfWork)
     {
         _quizRepository = quizRepository;
         _questionService = questionValidationService;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<Guid> Handle(CreateQuizCommand command, CancellationToken cancellationToken = default)
@@ -34,7 +37,9 @@ public class CreateQuizCommandHandler : ICommandHandler<CreateQuizCommand, Guid>
 
         quiz.AddQuestions(questions);
 
-        await _quizRepository.InsertAsync(quiz, true, cancellationToken);
+        await _quizRepository.InsertAsync(quiz, cancellationToken: cancellationToken);
+
+        await _unitOfWork.CompleteAsync(cancellationToken);
 
         return quiz.Id;
     }
