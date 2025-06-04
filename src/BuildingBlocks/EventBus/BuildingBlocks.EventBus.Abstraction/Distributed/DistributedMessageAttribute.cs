@@ -1,4 +1,6 @@
-﻿namespace BuildingBlocks.EventBus.Distributed.RabbitMQ.Attributes
+﻿using System;
+
+namespace BuildingBlocks.EventBus.Abstraction.Distributed
 {
     [AttributeUsage(AttributeTargets.Class, Inherited = false)]
     public class DistributedMessageAttribute : Attribute
