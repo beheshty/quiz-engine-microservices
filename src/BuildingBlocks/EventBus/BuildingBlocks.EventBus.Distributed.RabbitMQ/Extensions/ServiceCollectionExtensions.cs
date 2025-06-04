@@ -1,5 +1,4 @@
 ﻿using BuildingBlocks.EventBus.Abstraction.Distributed;
-using BuildingBlocks.EventBus.Distributed.RabbitMQ.Attributes;
 using BuildingBlocks.EventBus.Distributed.RabbitMQ.Configuration;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,7 +8,6 @@ namespace BuildingBlocks.EventBus.Distributed.RabbitMQ.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-
         public static IServiceCollection AddRabbitMqMassTransitEventBus(
                         this IServiceCollection services,
                         Assembly assembly,
@@ -53,18 +51,18 @@ namespace BuildingBlocks.EventBus.Distributed.RabbitMQ.Extensions
 
             foreach (var messageType in messageTypesWithAttributes)
             {
-                var attribute = messageType.GetCustomAttribute<DistributedMessageAttribute>();
+                var attribute = messageType.GetCustomAttribute<DistributedMessageAttribute>()!;
 
                 var consumerType = typeof(RabbitMqEventConsumer<>).MakeGenericType(messageType);
                 if (consumerType == null)
                     continue;
                 brc.AddConsumer(consumerType);
 
-                rfc.ReceiveEndpoint(attribute.Subscription, e =>
+                rfc.ReceiveEndpoint(attribute.Destination, e =>
                 {
-                    e.Bind(attribute.Destination, x =>
+                    e.Bind(attribute.Subscription, x =>
                     {
-                        x.ExchangeType = attribute.DistributionStrategy.ToString().ToLower();
+                        x.ExchangeType = attribute.DistributionStrategy.ToLower();
                         x.RoutingKey = messageType.FullName;
                     });
 
