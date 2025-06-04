@@ -15,7 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\QuizService.Domain\QuizService.Domain.csproj" />
     <ProjectReference Include="..\QuizService.Infrastructure\QuizService.Infrastructure.csproj" />
-    <ProjectReference Include="..\..\Shared\Shared.Question.Grpc.Proto\Shared.Question.Grpc.Proto.csproj" />
+    <ProjectReference Include="..\..\Shared\Shared.Question.Grpc.Proto\QuestionService.Grpc.Proto.csproj" />
   </ItemGroup>
 
 </Project>
