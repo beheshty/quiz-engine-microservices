@@ -1,6 +1,10 @@
-namespace BuildingBlocks.EventBus.Abstraction.Domain;
+using System.Threading;
+using System.Threading.Tasks;
 
-public interface IDomainEventBus
+namespace BuildingBlocks.EventBus.Abstraction.Domain
 {
-    Task PublishAsync<TEvent>(TEvent domainEvent, CancellationToken cancellationToken = default) where TEvent : IDomainEventData;
+    public interface IDomainEventBus
+    {
+        Task PublishAsync<TEvent>(TEvent domainEvent, CancellationToken cancellationToken = default) where TEvent : IDomainEventData;
+    }
 }

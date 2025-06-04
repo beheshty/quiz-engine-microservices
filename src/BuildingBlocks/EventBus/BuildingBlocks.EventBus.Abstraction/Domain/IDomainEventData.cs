@@ -1,8 +1,9 @@
-namespace BuildingBlocks.EventBus.Abstraction.Domain;
-
-public interface IDomainEventData
+namespace BuildingBlocks.EventBus.Abstraction.Domain
 {
-    object EventData { get; }
-    long EventOrder { get; }
-    PublishType PublishType { get; }
+    public interface IDomainEventData
+    {
+        object EventData { get; }
+        long EventOrder { get; }
+        PublishType PublishType { get; }
+    }
 }

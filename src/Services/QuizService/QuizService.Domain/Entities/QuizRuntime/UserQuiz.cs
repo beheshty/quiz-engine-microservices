@@ -1,5 +1,6 @@
 using QuizEngineMicroservices.Shared.Domain.Auditing;
 using QuizService.Domain.Enums;
+using QuizService.IntegrationEvents.UserQuiz;
 
 namespace QuizService.Domain.Entities.QuizRuntime;
 
@@ -79,7 +80,7 @@ public class UserQuiz : AuditedAggregateRoot<Guid>
         WrongCount = Answers.Count(a => !a.IsCorrect);
         TimeTaken = CompletedAt - StartedAt;
 
-        AddDistributedEvent(new UserQuizCompletedDomainEvent
+        AddDistributedEvent(new UserQuizCompletedIntegrationEvent
         {
             CompletedAt = CompletedAt,
             CorrectCount = CorrectCount,

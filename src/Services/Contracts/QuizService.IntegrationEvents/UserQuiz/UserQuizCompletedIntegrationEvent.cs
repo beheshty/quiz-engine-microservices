@@ -1,9 +1,10 @@
-﻿using BuildingBlocks.EventBus.Distributed.RabbitMQ.Attributes;
+﻿using BuildingBlocks.EventBus.Abstraction.Distributed;
+using System;
 
-namespace QuizService.Domain.Entities.QuizRuntime
+namespace QuizService.IntegrationEvents.UserQuiz
 {
     [DistributedMessage("user-quiz-completed")]
-    public class UserQuizCompletedDomainEvent
+    public class UserQuizCompletedIntegrationEvent
     {
         public Guid UserId { get; set; }
         public Guid QuizId { get; set; }
