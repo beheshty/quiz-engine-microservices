@@ -56,6 +56,22 @@ services:
     networks:
       - quiz-network
 
+  userservice.api:
+    image: ${DOCKER_REGISTRY-}userserviceapi
+    build:
+      context: .
+      dockerfile: src/Services/UserService/UserService.API/Dockerfile
+    ports:
+      - "8084:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=UserServiceDb;User ID=sa;Password=Password123;TrustServerCertificate=True
+    depends_on:
+      - sqlserver
+    networks:
+      - quiz-network
+
   mongodb:
     image: mongo:latest
     ports:
@@ -84,10 +100,23 @@ services:
     networks:
       - quiz-network
 
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Password123
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    networks:
+      - quiz-network
+
 networks:
   quiz-network:
     driver: bridge
 
 volumes:
   mongodb_data:
-  postgres_data: 
+  postgres_data:
+  sqlserver_data:
