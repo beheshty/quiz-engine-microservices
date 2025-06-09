@@ -15,6 +15,7 @@ services:
       - MongoDB__QuestionsCollectionName=Questions
     depends_on:
       - mongodb
+      - rabbitmq
     networks:
       - quiz-network
 
@@ -33,6 +34,7 @@ services:
       - MongoDB__QuestionsCollectionName=Questions
     depends_on:
       - mongodb
+      - rabbitmq
     networks:
       - quiz-network
 
@@ -48,11 +50,16 @@ services:
       - ASPNETCORE_URLS=http://+:80
       - DatabaseSettings__ConnectionString=Host=postgres;Database=quizdb;Username=postgres;Password=postgres
       - QuestionService__GrpcUrl=http://questionservice.grpc:8080
+      - RABBITMQ__HOST=rabbitmq://rabbitmq
+      - RABBITMQ__USERNAME=guest
+      - RABBITMQ__PASSWORD=guest
     depends_on:
       postgres:
         condition: service_healthy
       questionservice.grpc:
         condition: service_started
+      rabbitmq:
+        condition: service_healthy
     networks:
       - quiz-network
 
@@ -64,13 +71,31 @@ services:
     ports:
       - "8084:80"
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:80
-      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=UserServiceDb;User ID=sa;Password=Password123;TrustServerCertificate=True
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:80
+      ConnectionStrings__DefaultConnection: "Server=sqlserver,1433;Database=UserServiceDb;User ID=sa;Password=1StrongPwd!!;TrustServerCertificate=True"
     depends_on:
       - sqlserver
+      - rabbitmq
     networks:
       - quiz-network
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: 'rabbitmq'
+    ports:
+        - "5672:5672"
+        - "15672:15672"
+    volumes:
+        - rabbitmq_data:/var/lib/rabbitmq/
+        - rabbitmq_log:/var/log/rabbitmq
+    networks:
+      - quiz-network
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   mongodb:
     image: mongo:latest
@@ -101,14 +126,17 @@ services:
       - quiz-network
 
   sqlserver:
+    container_name: sqlserver
+    hostname: sqlserver
     image: mcr.microsoft.com/mssql/server:2022-latest
     ports:
       - "1433:1433"
     environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=Password123
+      MSSQL_SA_PASSWORD: "1StrongPwd!!"
+      SA_PASSWORD: "1StrongPwd!!"
+      ACCEPT_EULA: "Y"
     volumes:
-      - sqlserver_data:/var/opt/mssql
+      - sqlserver_data:/var/opt/mssql/data
     networks:
       - quiz-network
 
@@ -120,3 +148,5 @@ volumes:
   mongodb_data:
   postgres_data:
   sqlserver_data:
+  rabbitmq_data:
+  rabbitmq_log:

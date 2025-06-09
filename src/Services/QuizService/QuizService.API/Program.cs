@@ -5,7 +5,10 @@ using QuizService.Application.Commands.CreateQuiz;
 using QuizService.Infrastructure.Extensions;
 using QuizService.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection;
+using BuildingBlocks.EventBus.Domain.Extensions;
+using BuildingBlocks.EventBus.Local.Extensions;
+using BuildingBlocks.EventBus.Distributed.RabbitMQ.Extensions;
+using QuizService.Domain.Entities.QuizManagement;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +18,18 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Add infrastructure services
+builder.Services.AddLocalEventBus();
+builder.Services.AddRabbitMqMassTransitEventBus(typeof(Quiz).Assembly, o =>
+{
+    o.HostUrl = builder.Configuration["RABBITMQ:HOST"];
+    o.Username = builder.Configuration["RABBITMQ:USERNAME"];
+    o.Password = builder.Configuration["RABBITMQ:PASSWORD"];
+});
+builder.Services.AddDomainEventBus(o =>
+{
+    o.UseLocal = true;
+    o.UseDistributed = true;
+});
 builder.Services.AddInfrastructureServices(builder.Configuration);
 
 // Add gRPC client

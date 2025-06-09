@@ -3,11 +3,11 @@ using MassTransit;
 
 namespace BuildingBlocks.EventBus.Distributed.RabbitMQ
 {
-    internal class RabbitMqEventBus : IDistributedEventBus
+    public class RabbitMqEventBus : IDistributedEventBus
     {
         private readonly IBus _bus;
 
-        internal RabbitMqEventBus(IBus bus)
+        public RabbitMqEventBus(IBus bus)
         {
             _bus = bus;
         }
