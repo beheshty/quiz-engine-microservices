@@ -1,74 +1,83 @@
-using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using UserService.API.Data;
 using UserService.API.Models;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using OpenIddict.Abstractions;
+using static OpenIddict.Abstractions.OpenIddictConstants;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+{
+    options.UseSqlServer(connectionString);
+    options.UseOpenIddict();
+});
+
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
+builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
+
 // Configure authentication
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
+builder.Services.AddOpenIddict()
+    .AddCore(options =>
     {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
-        ValidAudience = builder.Configuration["JwtSettings:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"]))
-    };
-})
-.AddOpenIdConnect(options =>
+        options.UseEntityFrameworkCore()
+               .UseDbContext<ApplicationDbContext>();
+    })
+    .AddServer(options =>
+    {
+        options.SetTokenEndpointUris("/connect/token");
+        options.SetAuthorizationEndpointUris("/connect/authorize");
+
+        options.AllowClientCredentialsFlow();
+        options.AllowAuthorizationCodeFlow().RequireProofKeyForCodeExchange();
+        options.AllowRefreshTokenFlow();
+
+        options.AcceptAnonymousClients();
+
+        options.RegisterScopes("profile", "email", "quizapi", Scopes.Roles);
+        //Temp approach, should change in production
+        options.AddDevelopmentEncryptionCertificate()
+               .AddDevelopmentSigningCertificate();
+
+        options.DisableAccessTokenEncryption();
+
+        options.UseAspNetCore()
+               .EnableAuthorizationEndpointPassthrough()
+               .EnableTokenEndpointPassthrough()
+               .DisableTransportSecurityRequirement();
+    })
+    .AddValidation(options =>
+    {
+        options.UseLocalServer();
+        options.UseAspNetCore();
+    });
+
+builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.ClientId = builder.Configuration["OAuth:ClientId"];
-    options.ClientSecret = builder.Configuration["OAuth:ClientSecret"];
-    options.Authority = builder.Configuration["OAuth:Authority"];
-    options.ResponseType = OpenIdConnectResponseType.Code;
-    options.SaveTokens = true;
-    options.GetClaimsFromUserInfoEndpoint = true;
-    options.Scope.Add("openid");
-    options.Scope.Add("profile");
-    options.Scope.Add("email");
+    options.LoginPath = "/Identity/Account/Login";
 });
 
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+app.UseStaticFiles();
+app.UseRouting();
+app.UseCors(o=> { o.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin(); });
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
+
 app.MapControllers();
+app.MapRazorPages();
+app.MapDefaultControllerRoute();
+
 
 // Seed initial data
 using (var scope = app.Services.CreateScope())
@@ -80,6 +89,50 @@ using (var scope = app.Services.CreateScope())
     dbContext.Database.EnsureCreated();
     await DataSeeder.SeedRolesAsync(roleManager);
     await DataSeeder.SeedUsersAsync(userManager);
+
+    var manager = scope.ServiceProvider.GetRequiredService<IOpenIddictApplicationManager>();
+
+    if (await manager.FindByClientIdAsync("quizservice") is null)
+    {
+        await manager.CreateAsync(new OpenIddictApplicationDescriptor
+        {
+            ClientId = "quizservice",
+            ClientSecret = "KlT4e1OIvbpHg8_-gfTbK0yMuWbX0X2I5MCUS3IsA_s",
+            DisplayName = "Quiz Service (Client Credentials)",
+            Permissions =
+            {
+                Permissions.Endpoints.Token,
+                Permissions.GrantTypes.ClientCredentials,
+                Permissions.Prefixes.Scope + "quizapi",
+                Permissions.Prefixes.Scope + Scopes.Profile,
+                Permissions.Prefixes.Scope + Scopes.Email,
+            }
+        });
+    }
+
+    if (await manager.FindByClientIdAsync("swagger-ui") is null)
+    {
+        await manager.CreateAsync(new OpenIddictApplicationDescriptor
+        {
+            ClientId = "swagger-ui",
+            DisplayName = "Swagger UI",
+            ClientType = ClientTypes.Public,
+            Permissions =
+            {
+                Permissions.Endpoints.Authorization,
+                Permissions.Endpoints.Token,
+                Permissions.GrantTypes.AuthorizationCode,
+                Permissions.GrantTypes.RefreshToken,
+                Permissions.ResponseTypes.Code,
+                Permissions.Scopes.Email,
+                Permissions.Scopes.Profile,
+                Permissions.Scopes.Roles,
+                Permissions.Prefixes.Scope + "quizapi"
+            },
+            RedirectUris = { new Uri("http://localhost:8083/swagger/oauth2-redirect.html") },
+            PostLogoutRedirectUris = { new Uri("http://localhost:8083/swagger/") }
+        });
+    }
 }
 
 app.Run();

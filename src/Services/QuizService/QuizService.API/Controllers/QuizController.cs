@@ -7,6 +7,7 @@ using QuizService.Application.Common.CQRS.Interfaces;
 using QuizService.Application.Queries.GetQuizzes;
 using QuizService.Domain.Enums;
 using QuizService.API.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace QuizService.API.Controllers;
 
@@ -30,6 +31,7 @@ public class QuizController : ControllerBase
     /// <response code="200">Returns the list of quizzes</response>
     [HttpGet]
     [ProducesResponseType(typeof(List<QuizListItemDto>), StatusCodes.Status200OK)]
+    [Authorize]
     public async Task<ActionResult<List<QuizListItemDto>>> GetQuizzes(
         [FromQuery] QuizFilterRequest filters,
         CancellationToken cancellationToken = default)

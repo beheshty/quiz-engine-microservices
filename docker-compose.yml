@@ -46,6 +46,11 @@ services:
     ports:
       - "8083:80"
     environment:
+      - OAuth__ClientId=swagger-ui
+      - OAuth__TokenUrl=http://localhost:8084/connect/token
+      - OAuth__AuthorizationUrl=http://localhost:8084/connect/authorize
+      - JwtSettings__Authority=http://localhost:8084
+      - JwtSettings__Audience=quizservice
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
       - DatabaseSettings__ConnectionString=Host=postgres;Database=quizdb;Username=postgres;Password=postgres
@@ -60,6 +65,8 @@ services:
         condition: service_started
       rabbitmq:
         condition: service_healthy
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     networks:
       - quiz-network
 
@@ -136,7 +143,7 @@ services:
       SA_PASSWORD: "1StrongPwd!!"
       ACCEPT_EULA: "Y"
     volumes:
-      - sqlserver_data:/var/opt/mssql/data
+      - sqlserver_data:/var/opt/mssql
     networks:
       - quiz-network
 

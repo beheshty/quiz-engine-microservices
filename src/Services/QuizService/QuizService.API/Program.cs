@@ -9,13 +9,68 @@ using BuildingBlocks.EventBus.Domain.Extensions;
 using BuildingBlocks.EventBus.Local.Extensions;
 using BuildingBlocks.EventBus.Distributed.RabbitMQ.Extensions;
 using QuizService.Domain.Entities.QuizManagement;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Add authentication
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.Authority = builder.Configuration["JwtSettings:Authority"];
+        options.Audience = builder.Configuration["JwtSettings:Audience"];
+        options.RequireHttpsMetadata = false;
+
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateAudience = true,
+            ValidateIssuer = true,
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.FromMinutes(1)
+        };
+    });
+
+
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("oauth2", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.OAuth2,
+        Flows = new Microsoft.OpenApi.Models.OpenApiOAuthFlows
+        {
+            AuthorizationCode = new Microsoft.OpenApi.Models.OpenApiOAuthFlow
+            {
+                AuthorizationUrl = new Uri(builder.Configuration["OAuth:AuthorizationUrl"]),
+                TokenUrl = new Uri(builder.Configuration["OAuth:TokenUrl"]),
+                Scopes = new Dictionary<string, string>
+                {
+                    { "profile", "User profile" },
+                    { "email", "User email" },
+                    { "quizapi", "Quiz API access" },
+                    { "roles", "User roles" }
+                }
+            }
+        }
+    });
+
+    options.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+    {
+        {
+            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+            {
+                Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                {
+                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                    Id = "oauth2"
+                }
+            },
+            new[] { "profile", "email", "quizapi", "roles" }
+        }
+    });
+});
 
 // Add infrastructure services
 builder.Services.AddLocalEventBus();
@@ -45,6 +100,15 @@ builder.Services.AddControllers();
 
 var app = builder.Build();
 
+// Add to pipeline
+app.UseRouting();
+app.UseCors(o =>
+{
+    o.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+});
+app.UseAuthentication();
+app.UseAuthorization();
+
 // Apply migrations at startup
 using (var scope = app.Services.CreateScope())
 {
@@ -56,10 +120,14 @@ using (var scope = app.Services.CreateScope())
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "QuizService.API v1");
+        c.OAuthClientId(builder.Configuration["OAuth:ClientId"]);
+        c.OAuthAppName("Quiz Service Swagger UI");
+        c.OAuthUsePkce();
+    });
 }
-
-app.UseHttpsRedirection();
 
 app.MapControllers();
 
