@@ -4,7 +4,6 @@ using UserService.API.Data;
 using UserService.API.Models;
 using OpenIddict.Abstractions;
 using static OpenIddict.Abstractions.OpenIddictConstants;
-using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,7 +35,6 @@ builder.Services.AddOpenIddict()
         options.SetTokenEndpointUris("/connect/token");
         options.SetAuthorizationEndpointUris("/connect/authorize");
 
-        options.AllowClientCredentialsFlow();
         options.AllowAuthorizationCodeFlow().RequireProofKeyForCodeExchange();
         options.AllowRefreshTokenFlow();
 
@@ -128,6 +126,10 @@ using (var scope = app.Services.CreateScope())
                 Permissions.Scopes.Profile,
                 Permissions.Scopes.Roles,
                 Permissions.Prefixes.Scope + "quizapi"
+            },
+            Requirements =
+            {
+                Requirements.Features.ProofKeyForCodeExchange
             },
             RedirectUris = { new Uri("http://localhost:8083/swagger/oauth2-redirect.html") },
             PostLogoutRedirectUris = { new Uri("http://localhost:8083/swagger/") }
