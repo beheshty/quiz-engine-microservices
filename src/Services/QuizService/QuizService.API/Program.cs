@@ -11,7 +11,6 @@ using BuildingBlocks.EventBus.Distributed.RabbitMQ.Extensions;
 using QuizService.Domain.Entities.QuizManagement;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 

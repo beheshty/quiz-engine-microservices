@@ -23,6 +23,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
+var openIddictConfig = builder.Configuration.GetSection("OpenIddict");
 // Configure authentication
 builder.Services.AddOpenIddict()
     .AddCore(options =>
@@ -32,15 +33,16 @@ builder.Services.AddOpenIddict()
     })
     .AddServer(options =>
     {
-        options.SetTokenEndpointUris("/connect/token");
-        options.SetAuthorizationEndpointUris("/connect/authorize");
+        options.SetTokenEndpointUris(openIddictConfig["TokenEndpointUri"] ?? "/connect/token");
+        options.SetAuthorizationEndpointUris(openIddictConfig["AuthorizationEndpointUri"] ?? "/connect/authorize");
 
         options.AllowAuthorizationCodeFlow().RequireProofKeyForCodeExchange();
         options.AllowRefreshTokenFlow();
 
         options.AcceptAnonymousClients();
 
-        options.RegisterScopes("profile", "email", "quizapi", Scopes.Roles);
+        var scopes = openIddictConfig.GetSection("Scopes").Get<string[]>();
+        options.RegisterScopes(scopes);
         //Temp approach, should change in production
         options.AddDevelopmentEncryptionCertificate()
                .AddDevelopmentSigningCertificate();
@@ -51,6 +53,7 @@ builder.Services.AddOpenIddict()
                .EnableAuthorizationEndpointPassthrough()
                .EnableTokenEndpointPassthrough()
                .DisableTransportSecurityRequirement();
+        options.SetIssuer(builder.Configuration["JwtSettings:Authority"]);
     })
     .AddValidation(options =>
     {
@@ -60,7 +63,7 @@ builder.Services.AddOpenIddict()
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.LoginPath = "/Identity/Account/Login";
+    options.LoginPath = builder.Configuration["ApplicationCookie:LoginPath"] ?? "/Identity/Account/Login";
 });
 
 
@@ -89,31 +92,14 @@ using (var scope = app.Services.CreateScope())
     await DataSeeder.SeedUsersAsync(userManager);
 
     var manager = scope.ServiceProvider.GetRequiredService<IOpenIddictApplicationManager>();
+    var swaggerUiClientConfig = openIddictConfig.GetSection("Clients:SwaggerUI");
 
-    if (await manager.FindByClientIdAsync("quizservice") is null)
+    if (await manager.FindByClientIdAsync(swaggerUiClientConfig["ClientId"]) is null)
     {
         await manager.CreateAsync(new OpenIddictApplicationDescriptor
         {
-            ClientId = "quizservice",
-            ClientSecret = "KlT4e1OIvbpHg8_-gfTbK0yMuWbX0X2I5MCUS3IsA_s",
-            DisplayName = "Quiz Service (Client Credentials)",
-            Permissions =
-            {
-                Permissions.Endpoints.Token,
-                Permissions.GrantTypes.ClientCredentials,
-                Permissions.Prefixes.Scope + "quizapi",
-                Permissions.Prefixes.Scope + Scopes.Profile,
-                Permissions.Prefixes.Scope + Scopes.Email,
-            }
-        });
-    }
-
-    if (await manager.FindByClientIdAsync("swagger-ui") is null)
-    {
-        await manager.CreateAsync(new OpenIddictApplicationDescriptor
-        {
-            ClientId = "swagger-ui",
-            DisplayName = "Swagger UI",
+            ClientId = swaggerUiClientConfig["ClientId"],
+            DisplayName = swaggerUiClientConfig["DisplayName"],
             ClientType = ClientTypes.Public,
             Permissions =
             {
@@ -131,8 +117,8 @@ using (var scope = app.Services.CreateScope())
             {
                 Requirements.Features.ProofKeyForCodeExchange
             },
-            RedirectUris = { new Uri("http://localhost:8083/swagger/oauth2-redirect.html") },
-            PostLogoutRedirectUris = { new Uri("http://localhost:8083/swagger/") }
+            RedirectUris = { new Uri(swaggerUiClientConfig["RedirectUri"]) },
+            PostLogoutRedirectUris = { new Uri(swaggerUiClientConfig["PostLogoutRedirectUri"]) },
         });
     }
 }

@@ -13,6 +13,7 @@ namespace QuizService.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class QuizController : ControllerBase
 {
     private readonly IDispatcher _dispatcher;
@@ -31,7 +32,6 @@ public class QuizController : ControllerBase
     /// <response code="200">Returns the list of quizzes</response>
     [HttpGet]
     [ProducesResponseType(typeof(List<QuizListItemDto>), StatusCodes.Status200OK)]
-    [Authorize]
     public async Task<ActionResult<List<QuizListItemDto>>> GetQuizzes(
         [FromQuery] QuizFilterRequest filters,
         CancellationToken cancellationToken = default)
@@ -58,6 +58,7 @@ public class QuizController : ControllerBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+
     public async Task<ActionResult<Guid>> CreateQuiz(CreateQuizDto quiz, CancellationToken cancellationToken = default)
     {
         var command = new CreateQuizCommand(quiz);

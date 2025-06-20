@@ -278,6 +278,7 @@ public class AuthorizationController : Controller
             throw new InvalidOperationException("The specified grant type is not supported.");
         }
 
+        claimsPrincipal.SetResources("quizapi");
         foreach (var claim in claimsPrincipal.Claims)
         {
             claim.SetDestinations(GetDestinations(claim, claimsPrincipal));
