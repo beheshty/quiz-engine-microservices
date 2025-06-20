@@ -14,6 +14,7 @@ namespace UserService.API.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            builder.UseOpenIddict();
         }
     }
 } 

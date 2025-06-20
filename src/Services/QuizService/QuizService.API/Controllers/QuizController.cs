@@ -7,11 +7,13 @@ using QuizService.Application.Common.CQRS.Interfaces;
 using QuizService.Application.Queries.GetQuizzes;
 using QuizService.Domain.Enums;
 using QuizService.API.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace QuizService.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class QuizController : ControllerBase
 {
     private readonly IDispatcher _dispatcher;
@@ -56,6 +58,7 @@ public class QuizController : ControllerBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+
     public async Task<ActionResult<Guid>> CreateQuiz(CreateQuizDto quiz, CancellationToken cancellationToken = default)
     {
         var command = new CreateQuizCommand(quiz);

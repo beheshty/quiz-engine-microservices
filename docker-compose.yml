@@ -45,7 +45,11 @@ services:
       dockerfile: src/Services/QuizService/QuizService.API/Dockerfile
     ports:
       - "8083:80"
+    env_file:
+      - auth.env
     environment:
+      - OAuth__ClientId=swagger-ui
+      - JwtSettings__Audience=quizapi
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
       - DatabaseSettings__ConnectionString=Host=postgres;Database=quizdb;Username=postgres;Password=postgres
@@ -68,12 +72,25 @@ services:
     build:
       context: .
       dockerfile: src/Services/UserService/UserService.API/Dockerfile
+    env_file:
+      - auth.env
     ports:
       - "8084:80"
     environment:
-      ASPNETCORE_ENVIRONMENT: Development
-      ASPNETCORE_URLS: http://+:80
-      ConnectionStrings__DefaultConnection: "Server=sqlserver,1433;Database=UserServiceDb;User ID=sa;Password=1StrongPwd!!;TrustServerCertificate=True"
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=UserServiceDb;User ID=sa;Password=1StrongPwd!!;TrustServerCertificate=True
+      - ApplicationCookie__LoginPath=/Identity/Account/Login
+      - OpenIddict__TokenEndpointUri=/connect/token
+      - OpenIddict__AuthorizationEndpointUri=/connect/authorize
+      - OpenIddict__Scopes__0=profile
+      - OpenIddict__Scopes__1=email
+      - OpenIddict__Scopes__2=quizapi
+      - OpenIddict__Scopes__3=roles
+      - OpenIddict__Clients__SwaggerUI__ClientId=swagger-ui
+      - OpenIddict__Clients__SwaggerUI__DisplayName=Swagger UI Client
+      - OpenIddict__Clients__SwaggerUI__RedirectUri=https://localhost:8083/swagger/oauth2-redirect.html
+      - OpenIddict__Clients__SwaggerUI__PostLogoutRedirectUri=https://localhost:8083/swagger/ 
     depends_on:
       - sqlserver
       - rabbitmq
@@ -136,7 +153,7 @@ services:
       SA_PASSWORD: "1StrongPwd!!"
       ACCEPT_EULA: "Y"
     volumes:
-      - sqlserver_data:/var/opt/mssql/data
+      - sqlserver_data:/var/opt/mssql
     networks:
       - quiz-network
 

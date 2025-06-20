@@ -3,11 +3,13 @@ using QuizService.Application.Common.CQRS.Interfaces;
 using QuizService.Application.Commands.ProcessUserQuiz;
 using QuizService.Application.Commands.DraftUserQuiz;
 using QuizService.API.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace QuizService.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class UserQuizController : ControllerBase
 {
     private readonly IDispatcher _dispatcher;
