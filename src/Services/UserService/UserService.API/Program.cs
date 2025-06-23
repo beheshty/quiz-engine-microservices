@@ -92,14 +92,14 @@ using (var scope = app.Services.CreateScope())
     await DataSeeder.SeedUsersAsync(userManager);
 
     var manager = scope.ServiceProvider.GetRequiredService<IOpenIddictApplicationManager>();
-    var swaggerUiClientConfig = openIddictConfig.GetSection("Clients:SwaggerUI");
+    var swaggerQuizClientConfig = openIddictConfig.GetSection("Clients:SwaggerQuizUI");
 
-    if (await manager.FindByClientIdAsync(swaggerUiClientConfig["ClientId"]) is null)
+    if (await manager.FindByClientIdAsync(swaggerQuizClientConfig["ClientId"]) is null)
     {
         await manager.CreateAsync(new OpenIddictApplicationDescriptor
         {
-            ClientId = swaggerUiClientConfig["ClientId"],
-            DisplayName = swaggerUiClientConfig["DisplayName"],
+            ClientId = swaggerQuizClientConfig["ClientId"],
+            DisplayName = swaggerQuizClientConfig["DisplayName"],
             ClientType = ClientTypes.Public,
             Permissions =
             {
@@ -117,8 +117,38 @@ using (var scope = app.Services.CreateScope())
             {
                 Requirements.Features.ProofKeyForCodeExchange
             },
-            RedirectUris = { new Uri(swaggerUiClientConfig["RedirectUri"]) },
-            PostLogoutRedirectUris = { new Uri(swaggerUiClientConfig["PostLogoutRedirectUri"]) },
+            RedirectUris = { new Uri(swaggerQuizClientConfig["RedirectUri"]) },
+            PostLogoutRedirectUris = { new Uri(swaggerQuizClientConfig["PostLogoutRedirectUri"]) },
+        });
+    }
+
+    var swaggerQuestionClientConfig = openIddictConfig.GetSection("Clients:SwaggerQuestionUI");
+
+    if (await manager.FindByClientIdAsync(swaggerQuestionClientConfig["ClientId"]) is null)
+    {
+        await manager.CreateAsync(new OpenIddictApplicationDescriptor
+        {
+            ClientId = swaggerQuestionClientConfig["ClientId"],
+            DisplayName = swaggerQuestionClientConfig["DisplayName"],
+            ClientType = ClientTypes.Public,
+            Permissions =
+            {
+                Permissions.Endpoints.Authorization,
+                Permissions.Endpoints.Token,
+                Permissions.GrantTypes.AuthorizationCode,
+                Permissions.GrantTypes.RefreshToken,
+                Permissions.ResponseTypes.Code,
+                Permissions.Scopes.Email,
+                Permissions.Scopes.Profile,
+                Permissions.Scopes.Roles,
+                Permissions.Prefixes.Scope + "quizapi"
+            },
+            Requirements =
+            {
+                Requirements.Features.ProofKeyForCodeExchange
+            },
+            RedirectUris = { new Uri(swaggerQuestionClientConfig["RedirectUri"]) },
+            PostLogoutRedirectUris = { new Uri(swaggerQuestionClientConfig["PostLogoutRedirectUri"]) },
         });
     }
 }

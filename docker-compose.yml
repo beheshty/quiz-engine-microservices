@@ -96,10 +96,10 @@ services:
       - OpenIddict__Clients__SwaggerQuizUI__DisplayName=Swagger Quiz UI Client
       - OpenIddict__Clients__SwaggerQuizUI__RedirectUri=https://localhost:8083/swagger/oauth2-redirect.html
       - OpenIddict__Clients__SwaggerQuizUI__PostLogoutRedirectUri=https://localhost:8083/swagger/
-      - OpenIddict__Clients__SwaggerquestionUI__ClientId=swagger-quiz-ui
-      - OpenIddict__Clients__SwaggerquestionUI__DisplayName=Swagger Quiestion UI Client
-      - OpenIddict__Clients__SwaggerquestionUI__RedirectUri=https://localhost:8081/swagger/oauth2-redirect.html
-      - OpenIddict__Clients__SwaggerquestionUI__PostLogoutRedirectUri=https://localhost:8081/swagger/ 
+      - OpenIddict__Clients__SwaggerQuestionUI__ClientId=swagger-quiz-ui
+      - OpenIddict__Clients__SwaggerQuestionUI__DisplayName=Swagger Quiestion UI Client
+      - OpenIddict__Clients__SwaggerQuestionUI__RedirectUri=https://localhost:8081/swagger/oauth2-redirect.html
+      - OpenIddict__Clients__SwaggerQuestionUI__PostLogoutRedirectUri=https://localhost:8081/swagger/ 
     depends_on:
       - sqlserver
       - rabbitmq
