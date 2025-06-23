@@ -48,7 +48,7 @@ builder.Services.AddSwaggerGen(options =>
                 {
                     { "profile", "User profile" },
                     { "email", "User email" },
-                    { "quizapi", "Quiz API access" },
+                    { "quiz_api", "Quiz API access" },
                     { "roles", "User roles" }
                 }
             }
@@ -66,7 +66,7 @@ builder.Services.AddSwaggerGen(options =>
                     Id = "oauth2"
                 }
             },
-            new[] { "profile", "email", "quizapi", "roles" }
+            new[] { "profile", "email", "quiz_api", "roles" }
         }
     });
 });

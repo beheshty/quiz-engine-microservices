@@ -41,7 +41,7 @@ builder.Services.AddSwaggerGen(options =>
                 {
                     { "profile", "User profile" },
                     { "email", "User email" },
-                    { "questionapi", "Quiz API access" },
+                    { "question_api", "Question API access" },
                     { "roles", "User roles" }
                 }
             }
@@ -59,7 +59,7 @@ builder.Services.AddSwaggerGen(options =>
                     Id = "oauth2"
                 }
             },
-            new[] { "profile", "email", "questionapi", "roles" }
+            new[] { "profile", "email", "question_api", "roles" }
         }
     });
 });
@@ -88,9 +88,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "QuizService.API v1");
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "QuestionService.API v1");
         c.OAuthClientId(builder.Configuration["OAuth:ClientId"]);
-        c.OAuthAppName("Quiz Service Swagger UI");
+        c.OAuthAppName("Question Service Swagger UI");
         c.OAuthUsePkce();
     });
 }
