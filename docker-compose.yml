@@ -27,7 +27,11 @@ services:
     ports:
       - "8081:8080"
       - "8082:8081"
+    env_file:
+      - auth.env
     environment:
+      - OAuth__ClientId=swagger-ui-quiz-service
+      - JwtSettings__Audience=quizapi
       - ASPNETCORE_ENVIRONMENT=Development
       - MongoDB__ConnectionString=mongodb://mongodb:27017
       - MongoDB__DatabaseName=QuestionServiceDb
@@ -48,7 +52,7 @@ services:
     env_file:
       - auth.env
     environment:
-      - OAuth__ClientId=swagger-ui
+      - OAuth__ClientId=swagger-ui-quiz-service
       - JwtSettings__Audience=quizapi
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
@@ -86,11 +90,16 @@ services:
       - OpenIddict__Scopes__0=profile
       - OpenIddict__Scopes__1=email
       - OpenIddict__Scopes__2=quizapi
-      - OpenIddict__Scopes__3=roles
-      - OpenIddict__Clients__SwaggerUI__ClientId=swagger-ui
-      - OpenIddict__Clients__SwaggerUI__DisplayName=Swagger UI Client
-      - OpenIddict__Clients__SwaggerUI__RedirectUri=https://localhost:8083/swagger/oauth2-redirect.html
-      - OpenIddict__Clients__SwaggerUI__PostLogoutRedirectUri=https://localhost:8083/swagger/ 
+      - OpenIddict__Scopes__3=questionapi
+      - OpenIddict__Scopes__4=roles
+      - OpenIddict__Clients__SwaggerQuizUI__ClientId=swagger-quiz-ui
+      - OpenIddict__Clients__SwaggerQuizUI__DisplayName=Swagger Quiz UI Client
+      - OpenIddict__Clients__SwaggerQuizUI__RedirectUri=https://localhost:8083/swagger/oauth2-redirect.html
+      - OpenIddict__Clients__SwaggerQuizUI__PostLogoutRedirectUri=https://localhost:8083/swagger/
+      - OpenIddict__Clients__SwaggerquestionUI__ClientId=swagger-quiz-ui
+      - OpenIddict__Clients__SwaggerquestionUI__DisplayName=Swagger Quiestion UI Client
+      - OpenIddict__Clients__SwaggerquestionUI__RedirectUri=https://localhost:8081/swagger/oauth2-redirect.html
+      - OpenIddict__Clients__SwaggerquestionUI__PostLogoutRedirectUri=https://localhost:8081/swagger/ 
     depends_on:
       - sqlserver
       - rabbitmq
