@@ -8,7 +8,11 @@ services:
       dockerfile: src/Services/QuestionService/QuestionService.API/Dockerfile
     ports:
       - "8080:80"
+    env_file:
+      - auth.env
     environment:
+      - OAuth__ClientId=swagger-ui
+      - JwtSettings__Audience=questionapi
       - ASPNETCORE_ENVIRONMENT=Development
       - MongoDB__ConnectionString=mongodb://mongodb:27017
       - MongoDB__DatabaseName=QuestionServiceDb
@@ -85,12 +89,15 @@ services:
       - OpenIddict__AuthorizationEndpointUri=/connect/authorize
       - OpenIddict__Scopes__0=profile
       - OpenIddict__Scopes__1=email
-      - OpenIddict__Scopes__2=quizapi
-      - OpenIddict__Scopes__3=roles
+      - OpenIddict__Scopes__2=quiz_api
+      - OpenIddict__Scopes__3=question_api
+      - OpenIddict__Scopes__4=roles
       - OpenIddict__Clients__SwaggerUI__ClientId=swagger-ui
-      - OpenIddict__Clients__SwaggerUI__DisplayName=Swagger UI Client
-      - OpenIddict__Clients__SwaggerUI__RedirectUri=https://localhost:8083/swagger/oauth2-redirect.html
-      - OpenIddict__Clients__SwaggerUI__PostLogoutRedirectUri=https://localhost:8083/swagger/ 
+      - OpenIddict__Clients__SwaggerUI__DisplayName=Swagger UI for Development
+      - OpenIddict__Clients__SwaggerUI__RedirectUris__0=http://localhost:8083/swagger/oauth2-redirect.html
+      - OpenIddict__Clients__SwaggerUI__RedirectUris__1=http://localhost:8080/swagger/oauth2-redirect.html
+      - OpenIddict__Clients__SwaggerUI__PostLogoutRedirectUris__0=http://localhost:8083/swagger/
+      - OpenIddict__Clients__SwaggerUI__PostLogoutRedirectUris__1=http://localhost:8080/swagger/
     depends_on:
       - sqlserver
       - rabbitmq

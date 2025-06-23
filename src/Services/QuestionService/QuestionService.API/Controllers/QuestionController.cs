@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QuestionService.Application.DTOs;
 using QuestionService.Application.Services;
@@ -6,6 +7,7 @@ namespace QuestionService.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class QuestionController : ControllerBase
 {
     private readonly IQuestionAppService _questionAppService;

@@ -3,14 +3,66 @@ using QuestionService.Infrastructure;
 using QuestionService.Infrastructure.Data;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.Authority = builder.Configuration["JwtSettings:Authority"];
+        options.Audience = builder.Configuration["JwtSettings:Audience"];
+        options.RequireHttpsMetadata = false;
+
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateAudience = true,
+            ValidateIssuer = true,
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.FromMinutes(1)
+        };
+    });
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("oauth2", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.OAuth2,
+        Flows = new Microsoft.OpenApi.Models.OpenApiOAuthFlows
+        {
+            AuthorizationCode = new Microsoft.OpenApi.Models.OpenApiOAuthFlow
+            {
+                AuthorizationUrl = new Uri(builder.Configuration["OAuth:AuthorizationUrl"]),
+                TokenUrl = new Uri(builder.Configuration["OAuth:TokenUrl"]),
+                Scopes = new Dictionary<string, string>
+                {
+                    { "profile", "User profile" },
+                    { "email", "User email" },
+                    { "question_api", "Question API access" },
+                    { "roles", "User roles" }
+                }
+            }
+        }
+    });
+
+    options.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+    {
+        {
+            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+            {
+                Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                {
+                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                    Id = "oauth2"
+                }
+            },
+            new[] { "profile", "email", "question_api", "roles" }
+        }
+    });
+});
 
 // Configure MongoDB settings
 builder.Services.Configure<MongoDbSettings>(
@@ -34,7 +86,13 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "QuestionService.API v1");
+        c.OAuthClientId(builder.Configuration["OAuth:ClientId"]);
+        c.OAuthAppName("Question Service Swagger UI");
+        c.OAuthUsePkce();
+    });
 }
 
 app.UseHttpsRedirection();
