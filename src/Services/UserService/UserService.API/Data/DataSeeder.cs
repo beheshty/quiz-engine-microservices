@@ -6,13 +6,13 @@ namespace UserService.API.Data
 {
     public static class DataSeeder
     {
-        public static async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
+        public static async Task SeedRolesAsync(RoleManager<IdentityRole<Guid>> roleManager)
         {
             if (!await roleManager.RoleExistsAsync("Admin"))
-                await roleManager.CreateAsync(new IdentityRole("Admin"));
+                await roleManager.CreateAsync(new IdentityRole<Guid>("Admin"));
             
             if (!await roleManager.RoleExistsAsync("User"))
-                await roleManager.CreateAsync(new IdentityRole("User"));
+                await roleManager.CreateAsync(new IdentityRole<Guid>("User"));
         }
 
         public static async Task SeedUsersAsync(UserManager<ApplicationUser> userManager)
