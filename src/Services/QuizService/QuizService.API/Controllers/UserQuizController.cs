@@ -4,6 +4,7 @@ using QuizService.Application.Commands.ProcessUserQuiz;
 using QuizService.Application.Commands.DraftUserQuiz;
 using QuizService.API.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace QuizService.API.Controllers;
 
@@ -36,9 +37,10 @@ public class UserQuizController : ControllerBase
         [FromBody] ProcessUserQuizRequest request,
         CancellationToken cancellationToken = default)
     {
+        Guid userId = GetUserId();
         var command = new ProcessUserQuizCommand(
             request.UserQuizId,
-            request.UserId,
+            userId,
             request.Answers.Select(a => new UserQuizAnswerDto
             {
                 QuizQuestionId = a.QuizQuestionId,
@@ -68,8 +70,15 @@ public class UserQuizController : ControllerBase
         [FromBody] DraftUserQuizRequest request,
         CancellationToken cancellationToken = default)
     {
-        var command = new DraftUserQuizCommand(request.UserId, request.QuizId);
+        Guid userId = GetUserId();
+        var command = new DraftUserQuizCommand(userId, request.QuizId);
         var result = await _dispatcher.Send(command, cancellationToken);
         return Ok(result);
+    }
+
+    private Guid GetUserId()
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        return userId == null ? throw new UnauthorizedAccessException() : Guid.Parse(userId);
     }
 } 

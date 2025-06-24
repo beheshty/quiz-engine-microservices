@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace UserService.API.Models
 {
-    public class ApplicationUser : IdentityUser
+    public class ApplicationUser : IdentityUser<Guid>
     {
         [PersonalData]
         public string? FirstName { get; set; }
