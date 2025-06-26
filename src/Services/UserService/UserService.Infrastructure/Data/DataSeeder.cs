@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Identity;
-using System.Threading.Tasks;
 using UserService.API.Models;
 
 namespace UserService.API.Data

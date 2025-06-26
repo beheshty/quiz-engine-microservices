@@ -1,4 +1,4 @@
-namespace UserService.API.Models.DTOs
+namespace UserService.API.Models
 {
     public class RegisterDto
     {

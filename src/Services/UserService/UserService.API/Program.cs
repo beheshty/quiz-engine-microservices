@@ -81,50 +81,57 @@ app.MapDefaultControllerRoute();
 
 
 // Seed initial data
-using (var scope = app.Services.CreateScope())
+await AddScopesAndClientsAsync(openIddictConfig, app);
+
+app.Run();
+
+
+static async Task AddScopesAndClientsAsync(IConfigurationSection openIddictConfig, WebApplication app)
 {
-    var services = scope.ServiceProvider;
-    var roleManager = services.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
-    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
-    var dbContext = services.GetRequiredService<ApplicationDbContext>();
-    var scopeManager = scope.ServiceProvider.GetRequiredService<IOpenIddictScopeManager>();
-    dbContext.Database.EnsureCreated();
-    await DataSeeder.SeedRolesAsync(roleManager);
-    await DataSeeder.SeedUsersAsync(userManager);
-
-    if (await scopeManager.FindByNameAsync("quiz_api") is null)
+    using (var scope = app.Services.CreateScope())
     {
-        await scopeManager.CreateAsync(new OpenIddictScopeDescriptor
-        {
-            Name = "quiz_api",
-            DisplayName = "Quiz API access",
-            Resources = { "quizapi" } 
-        });
-    }
+        var services = scope.ServiceProvider;
+        var roleManager = services.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
+        var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+        var dbContext = services.GetRequiredService<ApplicationDbContext>();
+        var scopeManager = scope.ServiceProvider.GetRequiredService<IOpenIddictScopeManager>();
+        dbContext.Database.EnsureCreated();
+        await DataSeeder.SeedRolesAsync(roleManager);
+        await DataSeeder.SeedUsersAsync(userManager);
 
-    if (await scopeManager.FindByNameAsync("question_api") is null)
-    {
-        await scopeManager.CreateAsync(new OpenIddictScopeDescriptor
+        if (await scopeManager.FindByNameAsync("quiz_api") is null)
         {
-            Name = "question_api",
-            DisplayName = "Question API access",
-            Resources = { "questionapi" } 
-        });
-    }
+            await scopeManager.CreateAsync(new OpenIddictScopeDescriptor
+            {
+                Name = "quiz_api",
+                DisplayName = "Quiz API access",
+                Resources = { "quizapi" }
+            });
+        }
 
-    var manager = scope.ServiceProvider.GetRequiredService<IOpenIddictApplicationManager>();
-    var swaggerClientConfig = openIddictConfig.GetSection("Clients:SwaggerUI");
-    var swaggerClientId = swaggerClientConfig["ClientId"];
-
-    if (await manager.FindByClientIdAsync(swaggerClientId) is null)
-    {
-        var descriptor = new OpenIddictApplicationDescriptor
+        if (await scopeManager.FindByNameAsync("question_api") is null)
         {
-            ClientId = swaggerClientId,
-            DisplayName = swaggerClientConfig["DisplayName"],
-            ClientType = ClientTypes.Public,
-            ConsentType = ConsentTypes.Implicit,
-            Permissions =
+            await scopeManager.CreateAsync(new OpenIddictScopeDescriptor
+            {
+                Name = "question_api",
+                DisplayName = "Question API access",
+                Resources = { "questionapi" }
+            });
+        }
+
+        var manager = scope.ServiceProvider.GetRequiredService<IOpenIddictApplicationManager>();
+        var swaggerClientConfig = openIddictConfig.GetSection("Clients:SwaggerUI");
+        var swaggerClientId = swaggerClientConfig["ClientId"];
+
+        if (await manager.FindByClientIdAsync(swaggerClientId) is null)
+        {
+            var descriptor = new OpenIddictApplicationDescriptor
+            {
+                ClientId = swaggerClientId,
+                DisplayName = swaggerClientConfig["DisplayName"],
+                ClientType = ClientTypes.Public,
+                ConsentType = ConsentTypes.Implicit,
+                Permissions =
             {
                 Permissions.Endpoints.Authorization,
                 Permissions.Endpoints.Token,
@@ -134,32 +141,31 @@ using (var scope = app.Services.CreateScope())
                 Permissions.Scopes.Email,
                 Permissions.Scopes.Profile,
                 Permissions.Scopes.Roles,
-            
+
                 Permissions.Prefixes.Scope + "quiz_api",
                 Permissions.Prefixes.Scope + "question_api"
             },
-            Requirements =
+                Requirements =
             {
                 Requirements.Features.ProofKeyForCodeExchange
             }
-        };
+            };
 
-        var redirectUris = swaggerClientConfig.GetSection("RedirectUris").Get<string[]>()
-                                            .Select(uri => new Uri(uri));
-        foreach (var uri in redirectUris)
-        {
-            descriptor.RedirectUris.Add(uri);
+            var redirectUris = swaggerClientConfig.GetSection("RedirectUris").Get<string[]>()
+                                                .Select(uri => new Uri(uri));
+            foreach (var uri in redirectUris)
+            {
+                descriptor.RedirectUris.Add(uri);
+            }
+
+            var postLogoutRedirectUris = swaggerClientConfig.GetSection("PostLogoutRedirectUris").Get<string[]>()
+                                                            .Select(uri => new Uri(uri));
+            foreach (var uri in postLogoutRedirectUris)
+            {
+                descriptor.PostLogoutRedirectUris.Add(uri);
+            }
+
+            await manager.CreateAsync(descriptor);
         }
-
-        var postLogoutRedirectUris = swaggerClientConfig.GetSection("PostLogoutRedirectUris").Get<string[]>()
-                                                        .Select(uri => new Uri(uri));
-        foreach (var uri in postLogoutRedirectUris)
-        {
-            descriptor.PostLogoutRedirectUris.Add(uri);
-        }
-
-        await manager.CreateAsync(descriptor);
     }
 }
-
-app.Run();
