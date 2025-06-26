@@ -10,13 +10,11 @@ services:
       - "8080:80"
     env_file:
       - auth.env
+      - questions.env
     environment:
       - OAuth__ClientId=swagger-ui
       - JwtSettings__Audience=questionapi
       - ASPNETCORE_ENVIRONMENT=Development
-      - MongoDB__ConnectionString=mongodb://mongodb:27017
-      - MongoDB__DatabaseName=QuestionServiceDb
-      - MongoDB__QuestionsCollectionName=Questions
     depends_on:
       - mongodb
       - rabbitmq
@@ -31,11 +29,10 @@ services:
     ports:
       - "8081:8080"
       - "8082:8081"
+    env_file:
+      - questions.env
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - MongoDB__ConnectionString=mongodb://mongodb:27017
-      - MongoDB__DatabaseName=QuestionServiceDb
-      - MongoDB__QuestionsCollectionName=Questions
     depends_on:
       - mongodb
       - rabbitmq
@@ -101,6 +98,22 @@ services:
     depends_on:
       - sqlserver
       - rabbitmq
+    networks:
+      - quiz-network
+
+  userservice.grpc:
+    image: ${DOCKER_REGISTRY-}userservicegrpc
+    build:
+      context: .
+      dockerfile: src/Services/UserService/UserService.Grpc/Dockerfile
+    ports:
+      - "8085:8080"
+      - "8086:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=UserServiceDb;User ID=sa;Password=1StrongPwd!!;TrustServerCertificate=True 
+    depends_on:
+      - sqlserver
     networks:
       - quiz-network
 
@@ -174,3 +187,4 @@ volumes:
   sqlserver_data:
   rabbitmq_data:
   rabbitmq_log:
+
