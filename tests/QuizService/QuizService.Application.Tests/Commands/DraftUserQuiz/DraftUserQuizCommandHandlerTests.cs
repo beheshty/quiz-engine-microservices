@@ -44,7 +44,7 @@ public class DraftUserQuizCommandHandlerTests
         _userQuizRepositoryMock.Setup(x => x.InsertAsync(
             It.Is<UserQuiz>(uq => uq.UserId == userId && uq.QuizId == quizId), false,
             It.IsAny<CancellationToken>()))
-            .Callback<UserQuiz, CancellationToken>((uq, _) => savedUserQuiz = uq);
+            .Callback<UserQuiz, bool, CancellationToken>((uq, _, _) => savedUserQuiz = uq);
 
         var command = new DraftUserQuizCommand(userId, quizId);
 

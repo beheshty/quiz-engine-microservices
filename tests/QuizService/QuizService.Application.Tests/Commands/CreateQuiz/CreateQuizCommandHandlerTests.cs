@@ -57,8 +57,8 @@ public class CreateQuizCommandHandlerTests
                     qq.QuestionId == cq.QuestionId && 
                     qq.Order == cq.Order))), false,
             It.IsAny<CancellationToken>()))
-            .Callback<Quiz, CancellationToken>((quiz, _) => savedQuiz = quiz)
-            .ReturnsAsync((Quiz quiz, CancellationToken _) => quiz);
+            .Callback<Quiz, bool, CancellationToken>((quiz, _, _) => savedQuiz = quiz)
+            .ReturnsAsync((Quiz quiz, bool _, CancellationToken _) => quiz);
 
         // Act
         var result = await _handler.Handle(command, default);
