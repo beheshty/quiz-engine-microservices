@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Contracts\UserService.Grpc.Proto\UserService.Grpc.Proto.csproj" />
+  </ItemGroup>
+
 </Project>
