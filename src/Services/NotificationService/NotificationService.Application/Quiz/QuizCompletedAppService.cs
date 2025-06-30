@@ -4,7 +4,7 @@ using NotificationService.Infrastructure.Abstractions;
 
 namespace NotificationService.Application.Quiz
 {
-    public class QuizCompletedAppService
+    public class QuizCompletedAppService : IQuizCompletedAppService
     {
         private readonly IUserGrpcClient _userGrpcClient;
         private readonly IEmailSender _emailSender;
