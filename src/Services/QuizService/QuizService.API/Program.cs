@@ -8,9 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using BuildingBlocks.EventBus.Domain.Extensions;
 using BuildingBlocks.EventBus.Local.Extensions;
 using BuildingBlocks.EventBus.Distributed.RabbitMQ.Extensions;
-using QuizService.Domain.Entities.QuizManagement;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using QuizService.IntegrationEvents.UserQuiz;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -73,7 +73,7 @@ builder.Services.AddSwaggerGen(options =>
 
 // Add infrastructure services
 builder.Services.AddLocalEventBus();
-builder.Services.AddRabbitMqMassTransitEventBus(typeof(Quiz).Assembly, o =>
+builder.Services.AddRabbitMqMassTransitEventBus(typeof(UserQuizCompletedIntegrationEvent).Assembly, o =>
 {
     o.HostUrl = builder.Configuration["RABBITMQ:HOST"];
     o.Username = builder.Configuration["RABBITMQ:USERNAME"];
