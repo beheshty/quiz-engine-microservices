@@ -85,6 +85,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Domain", "src\S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Infrastructure", "src\Services\UserService\UserService.Infrastructure\UserService.Infrastructure.csproj", "{797605A9-0D8F-4D29-BE8E-0274773194E1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NotificationService", "NotificationService", "{BDA3821A-C3B1-4DF0-AB21-85BAC5A809B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService.Application.Tests", "tests\NotificationService\NotificationService.Application.Tests\NotificationService.Application.Tests.csproj", "{1AB18F1A-AA53-4E79-AD37-BE5A9B42207B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -427,6 +431,18 @@ Global
 		{797605A9-0D8F-4D29-BE8E-0274773194E1}.Release|x64.Build.0 = Release|Any CPU
 		{797605A9-0D8F-4D29-BE8E-0274773194E1}.Release|x86.ActiveCfg = Release|Any CPU
 		{797605A9-0D8F-4D29-BE8E-0274773194E1}.Release|x86.Build.0 = Release|Any CPU
+		{1AB18F1A-AA53-4E79-AD37-BE5A9B42207B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AB18F1A-AA53-4E79-AD37-BE5A9B42207B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AB18F1A-AA53-4E79-AD37-BE5A9B42207B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1AB18F1A-AA53-4E79-AD37-BE5A9B42207B}.Debug|x64.Build.0 = Debug|Any CPU
+		{1AB18F1A-AA53-4E79-AD37-BE5A9B42207B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1AB18F1A-AA53-4E79-AD37-BE5A9B42207B}.Debug|x86.Build.0 = Debug|Any CPU
+		{1AB18F1A-AA53-4E79-AD37-BE5A9B42207B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AB18F1A-AA53-4E79-AD37-BE5A9B42207B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AB18F1A-AA53-4E79-AD37-BE5A9B42207B}.Release|x64.ActiveCfg = Release|Any CPU
+		{1AB18F1A-AA53-4E79-AD37-BE5A9B42207B}.Release|x64.Build.0 = Release|Any CPU
+		{1AB18F1A-AA53-4E79-AD37-BE5A9B42207B}.Release|x86.ActiveCfg = Release|Any CPU
+		{1AB18F1A-AA53-4E79-AD37-BE5A9B42207B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -470,6 +486,8 @@ Global
 		{19BD0573-B793-457C-9442-35D60A800354} = {8EEC121F-3C19-47CD-9B11-CE238F29404E}
 		{270846F6-7C4D-4BD8-B92D-6C4F3577C342} = {8EEC121F-3C19-47CD-9B11-CE238F29404E}
 		{797605A9-0D8F-4D29-BE8E-0274773194E1} = {8EEC121F-3C19-47CD-9B11-CE238F29404E}
+		{BDA3821A-C3B1-4DF0-AB21-85BAC5A809B1} = {2553874B-AB6A-4E6A-89E9-6C62A0296BA7}
+		{1AB18F1A-AA53-4E79-AD37-BE5A9B42207B} = {BDA3821A-C3B1-4DF0-AB21-85BAC5A809B1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CAD04425-5E97-4B25-878B-32011A20D8FC}
