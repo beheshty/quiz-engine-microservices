@@ -1,15 +1,19 @@
-﻿using BuildingBlocks.EventBus.Distributed.RabbitMQ.Extensions;
+﻿using BuildingBlocks.EventBus.Abstraction.Distributed;
+using BuildingBlocks.EventBus.Distributed.RabbitMQ.Extensions;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NotificationService.Application;
 using NotificationService.Application.Grpc;
 using NotificationService.Infrastructure.Extensions;
 using NotificationService.Worker.Quizzes;
+using QuizService.IntegrationEvents.UserQuiz;
 
 Host.CreateDefaultBuilder(args)
     .ConfigureAppConfiguration((context, config) =>
     {
         config.AddJsonFile("appsettings.json");
+        config.AddEnvironmentVariables();
     })
     .ConfigureServices((context, services) =>
     {
@@ -31,5 +35,6 @@ Host.CreateDefaultBuilder(args)
             o.Username = config["RABBITMQ:USERNAME"];
             o.Password = config["RABBITMQ:PASSWORD"];
         });
+        services.AddScoped<IDistributedEventHandler<UserQuizCompletedIntegrationEvent>, UserQuizCompletedEventHandler>();
     })
     .Build().Run();
