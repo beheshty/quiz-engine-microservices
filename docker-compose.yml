@@ -17,7 +17,6 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
     depends_on:
       - mongodb
-      - rabbitmq
     networks:
       - quiz-network
 
@@ -35,7 +34,6 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
     depends_on:
       - mongodb
-      - rabbitmq
     networks:
       - quiz-network
 
@@ -48,6 +46,7 @@ services:
       - "8083:80"
     env_file:
       - auth.env
+      - rabbitmq.env 
     environment:
       - OAuth__ClientId=swagger-ui
       - JwtSettings__Audience=quizapi
@@ -55,9 +54,6 @@ services:
       - ASPNETCORE_URLS=http://+:80
       - DatabaseSettings__ConnectionString=Host=postgres;Database=quizdb;Username=postgres;Password=postgres
       - QuestionService__GrpcUrl=http://questionservice.grpc:8080
-      - RABBITMQ__HOST=rabbitmq://rabbitmq
-      - RABBITMQ__USERNAME=guest
-      - RABBITMQ__PASSWORD=guest
     depends_on:
       postgres:
         condition: service_healthy
@@ -97,7 +93,6 @@ services:
       - OpenIddict__Clients__SwaggerUI__PostLogoutRedirectUris__1=http://localhost:8080/swagger/
     depends_on:
       - sqlserver
-      - rabbitmq
     networks:
       - quiz-network
 
@@ -114,6 +109,28 @@ services:
       - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=UserServiceDb;User ID=sa;Password=1StrongPwd!!;TrustServerCertificate=True 
     depends_on:
       - sqlserver
+    networks:
+      - quiz-network
+
+  notificationservice.worker:
+    image: ${DOCKER_REGISTRY-}notificationserviceworker
+    build:
+      context: .
+      dockerfile: src/Services/NotificationService/NotificationService.Worker/Dockerfile
+    env_file:
+      - rabbitmq.env 
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - UserService:GrpcUrl=http://userservice.grpc:8085
+      - SMTP:Port=587
+      - SMTP:Host=smtp.example.com
+      - SMTP:User=your_smtp_user
+      - SMTP:Pass=your_smtp_password
+      - SMTP:FromAddress=no-reply@example.com
+      - SMTP:FromName=QuizEngine
+    depends_on:
+      - rabbitmq
+      - userservice.grpc
     networks:
       - quiz-network
 
