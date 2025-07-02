@@ -1,6 +1,7 @@
 ﻿using BuildingBlocks.EventBus.Abstraction.Distributed;
 using BuildingBlocks.EventBus.Distributed.RabbitMQ.Configuration;
 using MassTransit;
+using MassTransit.Internals;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -22,7 +23,13 @@ namespace BuildingBlocks.EventBus.Distributed.RabbitMQ.Extensions
 
             services.AddMassTransit(cfg =>
             {
-                cfg.AddConsumers(assembly);
+                IEnumerable<Type> messageTypesWithAttributes = GetMessageTypes(assembly);
+
+                foreach (var messageType in messageTypesWithAttributes)
+                {
+                    var consumerType = typeof(RabbitMqEventConsumer<>).MakeGenericType(messageType);
+                    cfg.AddConsumer(consumerType);
+                }
 
                 cfg.UsingRabbitMq((context, busCfg) =>
                 {
@@ -35,20 +42,15 @@ namespace BuildingBlocks.EventBus.Distributed.RabbitMQ.Extensions
                         }
                     });
 
-                    busCfg.ConfigureWithAttributes(cfg, context, assembly);
+                    busCfg.ConfigureWithAttributes(cfg, context, messageTypesWithAttributes);
                 });
             });
 
             return services;
         }
-
         private static void ConfigureWithAttributes(this IRabbitMqBusFactoryConfigurator rfc, IBusRegistrationConfigurator brc,
-                                                   IRegistrationContext context, Assembly assembly)
+                                                   IRegistrationContext context, IEnumerable<Type> messageTypesWithAttributes)
         {
-            var messageTypesWithAttributes = assembly
-            .GetTypes()
-            .Where(t => t.GetCustomAttribute<DistributedMessageAttribute>() != null);
-
             foreach (var messageType in messageTypesWithAttributes)
             {
                 var attribute = messageType.GetCustomAttribute<DistributedMessageAttribute>()!;
@@ -56,7 +58,6 @@ namespace BuildingBlocks.EventBus.Distributed.RabbitMQ.Extensions
                 var consumerType = typeof(RabbitMqEventConsumer<>).MakeGenericType(messageType);
                 if (consumerType == null)
                     continue;
-                brc.AddConsumer(consumerType);
 
                 rfc.ReceiveEndpoint(attribute.Destination, e =>
                 {
@@ -70,5 +71,20 @@ namespace BuildingBlocks.EventBus.Distributed.RabbitMQ.Extensions
                 });
             }
         }
+
+        private static IEnumerable<Type> GetMessageTypes(Assembly assembly)
+        {
+            var handlerInterfaceType = typeof(IDistributedEventHandler<>);
+
+            return assembly
+                .GetTypes()
+                .Where(t => t.IsClass && !t.IsAbstract)
+                .SelectMany(t => t.GetInterfaces()
+                    .Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == handlerInterfaceType)
+                    .Select(i => i.GetGenericArguments()[0]))
+                .Where(messageType => messageType.HasAttribute<DistributedMessageAttribute>())
+                .Distinct();
+        }
+
     }
 }

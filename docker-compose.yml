@@ -121,13 +121,13 @@ services:
       - rabbitmq.env 
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - UserService:GrpcUrl=http://userservice.grpc:8085
-      - SMTP:Port=587
-      - SMTP:Host=smtp.example.com
-      - SMTP:User=your_smtp_user
-      - SMTP:Pass=your_smtp_password
-      - SMTP:FromAddress=no-reply@example.com
-      - SMTP:FromName=QuizEngine
+      - UserService__GrpcUrl=http://userservice.grpc:8080
+      - SMTP__Port=587
+      - SMTP__Host=smtp.example.com
+      - SMTP__User=your_smtp_user
+      - SMTP__Pass=your_smtp_password
+      - SMTP__FromAddress=no-reply@example.com
+      - SMTP__FromName=QuizEngine
     depends_on:
       - rabbitmq
       - userservice.grpc
