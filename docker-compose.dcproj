@@ -10,6 +10,7 @@
     <DockerServiceName>questionservice.api</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="rabbitmq.env" />
     <None Include="questions.env" />
     <None Include="auth.env" />
     <None Include="docker-compose.override.yml">

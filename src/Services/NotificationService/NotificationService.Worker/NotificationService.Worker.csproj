@@ -5,12 +5,25 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <DockerfileContext>..\..\..\..</DockerfileContext>
+	  <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+	  <DockerfileContext>..\..\..</DockerfileContext>
+	  <DockerComposeProjectPath>..\..\..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\EventBus\BuildingBlocks.EventBus.Distributed.RabbitMQ\BuildingBlocks.EventBus.Distributed.RabbitMQ.csproj" />
+    <ProjectReference Include="..\..\Contracts\QuizService.IntegrationEvents\QuizService.IntegrationEvents.csproj" />
+    <ProjectReference Include="..\NotificationService.Application\NotificationService.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
