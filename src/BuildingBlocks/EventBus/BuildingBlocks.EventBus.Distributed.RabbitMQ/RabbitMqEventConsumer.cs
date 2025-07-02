@@ -16,7 +16,6 @@ namespace BuildingBlocks.EventBus.Distributed.RabbitMQ
         {
             using var scope = _serviceProvider.CreateScope();
             var handlers = scope.ServiceProvider.GetRequiredService<IEnumerable<IDistributedEventHandler<TEvent>>>();
-            var bus = scope.ServiceProvider.GetRequiredService<IBus>();
 
             foreach (var handler in handlers)
             {

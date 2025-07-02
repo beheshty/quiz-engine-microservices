@@ -14,7 +14,7 @@ namespace BuildingBlocks.EventBus.Distributed.RabbitMQ
 
         public async Task PublishAsync<TEvent>(TEvent eventData, CancellationToken cancellationToken = default) where TEvent : class
         {
-            await _bus.Publish(eventData, cancellationToken);
+            await _bus.Publish(eventData, eventData.GetType(), cancellationToken);
         }
     }
 }
