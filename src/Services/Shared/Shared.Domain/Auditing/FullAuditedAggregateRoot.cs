@@ -1,4 +1,4 @@
-﻿namespace QuizEngineMicroservices.Shared.Domain.Auditing;
+﻿namespace BuildingBlocks.Domain.Auditing;
 
 public abstract class FullAuditedAggregateRoot : AuditedAggregateRoot, IDeletionAuditedEntity, ISoftDelete
 {

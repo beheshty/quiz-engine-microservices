@@ -1,5 +1,5 @@
-﻿using QuizService.Domain.Entities.QuizRuntime;
-using Shared.Domain.Repositories;
+﻿using BuildingBlocks.Domain.Repositories;
+using QuizService.Domain.Entities.QuizRuntime;
 
 namespace QuizService.Domain.Repositories
 {

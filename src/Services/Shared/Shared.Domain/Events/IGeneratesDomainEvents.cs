@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace QuizEngineMicroservices.Shared.Domain.Events;
+namespace BuildingBlocks.Domain.Events;
 
 /// <summary>
 /// Defines an interface for entities that can generate domain events.

@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 
-namespace QuizEngineMicroservices.Shared.Domain.Events;
+namespace BuildingBlocks.Domain.Events;
 
 /// <summary>
 /// Generates sequential event order numbers in a thread-safe manner.

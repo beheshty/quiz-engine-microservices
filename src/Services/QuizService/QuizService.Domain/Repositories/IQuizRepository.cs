@@ -1,6 +1,6 @@
 ﻿using QuizService.Domain.Entities.QuizManagement;
-using Shared.Domain.Repositories;
 using QuizService.Domain.Filters;
+using BuildingBlocks.Domain.Repositories;
 
 namespace QuizService.Domain.Repositories
 {

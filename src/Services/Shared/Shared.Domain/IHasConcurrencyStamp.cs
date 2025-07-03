@@ -1,4 +1,4 @@
-namespace QuizEngineMicroservices.Shared.Domain;
+namespace BuildingBlocks.Domain;
 
 public interface IHasConcurrencyStamp
 {

@@ -1,6 +1,6 @@
-﻿using QuizEngineMicroservices.Shared.Domain;
+﻿using BuildingBlocks.Domain;
 
-namespace Shared.Domain.Repositories;
+namespace BuildingBlocks.Domain.Repositories;
 
 public interface IRepository<TEntity> : IReadOnlyRepository<TEntity> where TEntity : class, IEntity
 {

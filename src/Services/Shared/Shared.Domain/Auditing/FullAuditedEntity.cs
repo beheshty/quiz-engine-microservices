@@ -1,4 +1,4 @@
-﻿namespace QuizEngineMicroservices.Shared.Domain.Auditing;
+﻿namespace BuildingBlocks.Domain.Auditing;
 /// <summary>
 /// Implements <see cref="IFullAuditedObject"/> to be a base class for full-audited aggregate roots.
 /// </summary>

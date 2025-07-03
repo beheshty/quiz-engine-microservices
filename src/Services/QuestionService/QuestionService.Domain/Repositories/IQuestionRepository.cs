@@ -1,6 +1,6 @@
-﻿using QuestionService.Domain.Entities;
+﻿using BuildingBlocks.Domain.Repositories;
+using QuestionService.Domain.Entities;
 using QuestionService.Domain.Enums;
-using Shared.Domain.Repositories;
 
 namespace QuestionService.Domain.Repositories;
 

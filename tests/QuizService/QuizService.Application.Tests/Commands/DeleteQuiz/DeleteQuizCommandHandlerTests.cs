@@ -1,9 +1,9 @@
+using BuildingBlocks.Domain.Exceptions;
 using Moq;
 using QuizService.Application.Commands.DeleteQuiz;
 using QuizService.Domain.Entities.QuizManagement;
 using QuizService.Domain.Enums;
 using QuizService.Domain.Repositories;
-using Shared.Domain.Exceptions;
 using Xunit;
 
 namespace QuizService.Application.Tests.Commands.DeleteQuiz;

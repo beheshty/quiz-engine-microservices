@@ -1,7 +1,7 @@
 ﻿using BuildingBlocks.EventBus.Abstraction;
 using BuildingBlocks.EventBus.Abstraction.Domain;
 
-namespace QuizEngineMicroservices.Shared.Domain.Events;
+namespace BuildingBlocks.Domain.Events;
 
 public class DomainEventRecord : IDomainEventData
 {

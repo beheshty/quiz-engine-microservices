@@ -1,4 +1,6 @@
-namespace QuizEngineMicroservices.Shared.Domain.Auditing;
+using BuildingBlocks.Domain;
+
+namespace BuildingBlocks.Domain.Auditing;
 
 /// <summary>
 /// This class can be used to simplify implementing <see cref="ICreationAuditedEntity"/> for aggregate roots.

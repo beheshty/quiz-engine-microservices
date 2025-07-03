@@ -1,5 +1,5 @@
+using BuildingBlocks.Domain.Auditing;
 using QuestionService.Domain.Enums;
-using QuizEngineMicroservices.Shared.Domain.Auditing;
 
 namespace QuestionService.Domain.Entities;
 

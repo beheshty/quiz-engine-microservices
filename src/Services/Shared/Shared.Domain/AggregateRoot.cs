@@ -1,5 +1,4 @@
-﻿
-namespace QuizEngineMicroservices.Shared.Domain;
+﻿namespace BuildingBlocks.Domain;
 
 [Serializable]
 public abstract class AggregateRoot : BasicAggregateRoot, IHasConcurrencyStamp

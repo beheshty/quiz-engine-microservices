@@ -1,3 +1,4 @@
+using BuildingBlocks.Domain.Exceptions;
 using Moq;
 using QuizService.Application.Commands.CreateQuiz;
 using QuizService.Application.Commands.UpdateQuiz;
@@ -5,7 +6,6 @@ using QuizService.Application.Services;
 using QuizService.Domain.Entities.QuizManagement;
 using QuizService.Domain.Enums;
 using QuizService.Domain.Repositories;
-using Shared.Domain.Exceptions;
 
 namespace QuizService.Application.Tests.Commands.UpdateQuiz;
 

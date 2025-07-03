@@ -1,7 +1,7 @@
-﻿using BuildingBlocks.EventBus.Abstraction;
-using QuizEngineMicroservices.Shared.Domain.Events;
+﻿using BuildingBlocks.Domain.Events;
+using BuildingBlocks.EventBus.Abstraction;
 
-namespace QuizEngineMicroservices.Shared.Domain;
+namespace BuildingBlocks.Domain;
 
 public abstract class BasicAggregateRoot : Entity, IAggregateRoot, IGeneratesDomainEvents
 {

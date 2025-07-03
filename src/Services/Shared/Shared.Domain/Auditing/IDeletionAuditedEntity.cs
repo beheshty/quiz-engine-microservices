@@ -1,6 +1,6 @@
 using System;
 
-namespace QuizEngineMicroservices.Shared.Domain.Auditing;
+namespace BuildingBlocks.Domain.Auditing;
 
 public interface IDeletionAuditedEntity
 {

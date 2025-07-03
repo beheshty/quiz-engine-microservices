@@ -1,4 +1,6 @@
-namespace QuizEngineMicroservices.Shared.Domain.Auditing;
+using BuildingBlocks.Domain;
+
+namespace BuildingBlocks.Domain.Auditing;
 public abstract class CreationAuditedEntity : Entity, ICreationAuditedEntity
 {
     public virtual DateTime CreationTime { get; set; } = DateTime.UtcNow;
