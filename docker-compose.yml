@@ -134,6 +134,25 @@ services:
     networks:
       - quiz-network
 
+  apigateway.api:
+    image: ${DOCKER_REGISTRY-}apigatewayapi
+    build:
+      context: .
+      dockerfile: src/Services/ApiGateway/ApiGateway.API/Dockerfile
+    ports:
+      - "8000:80"
+    env_file:
+      - auth.env
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+    depends_on:
+      - questionservice.api
+      - quizservice.api
+      - userservice.api
+    networks:
+      - quiz-network
+
   rabbitmq:
     image: rabbitmq:3-management-alpine
     container_name: 'rabbitmq'
