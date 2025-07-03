@@ -36,3 +36,45 @@ services:
       - ./src/UserService:/app
       - ~/.nuget/packages:/root/.nuget/packages:ro
       - ~/AppData/Local/Microsoft/TypeScript/tsc:/root/.cache/typescript:ro
+
+  userservice.grpc:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    volumes:
+      - ./src/UserService:/app
+      - ~/.nuget/packages:/root/.nuget/packages:ro
+      - ~/AppData/Local/Microsoft/TypeScript/tsc:/root/.cache/typescript:ro
+
+  notificationservice.worker:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    volumes:
+      - ./src/NotificationService:/app
+      - ~/.nuget/packages:/root/.nuget/packages:ro
+      - ~/AppData/Local/Microsoft/TypeScript/tsc:/root/.cache/typescript:ro
+
+  rabbitmq:
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq/
+      - rabbitmq_log:/var/log/rabbitmq
+
+  mongodb:
+    volumes:
+      - mongodb_data:/data/db
+
+  postgres:
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  sqlserver:
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+
+  apigateway.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+    volumes:
+      - ./src/ApiGateway:/app
+      - ~/.nuget/packages:/root/.nuget/packages:ro
+      - ~/AppData/Local/Microsoft/TypeScript/tsc:/root/.cache/typescript:ro
