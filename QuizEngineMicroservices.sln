@@ -45,7 +45,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "QuestionService", "Question
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "QuizService", "QuizService", "{D20BD56E-AF83-4E86-9FDB-993A1016379D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionService.Grpc.Proto", "src\Services\Contracts\QuestionService.Grpc.Proto\QuestionService.Grpc.Proto.csproj", "{E8421CB1-31D8-4672-ADAC-92FC6A2A2DED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts.Grpc.QuestionService", "src\Services\Contracts\QuestionService.Grpc.Proto\Contracts.Grpc.QuestionService.csproj", "{E8421CB1-31D8-4672-ADAC-92FC6A2A2DED}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{728B1D03-DEAC-439E-9AAB-D8BD53D893D9}"
 EndProject
@@ -61,9 +61,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlocks.EventBus.Loc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlocks.EventBus.Domain", "src\BuildingBlocks\EventBus\BuildingBlocks.EventBus.Domain\BuildingBlocks.EventBus.Domain.csproj", "{90881E10-D204-46DE-B99D-9EBF09E30600}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Contracts", "Contracts", "{3C66B940-2E36-419F-8D33-DD17BB5B4E01}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuizService.IntegrationEvents", "src\Services\Contracts\QuizService.IntegrationEvents\QuizService.IntegrationEvents.csproj", "{D1028095-4F5F-4269-A442-F17806E1AD60}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts.Events.QuizService", "src\Services\Contracts\QuizService.IntegrationEvents\Contracts.Events.QuizService.csproj", "{D1028095-4F5F-4269-A442-F17806E1AD60}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.API", "src\Services\UserService\UserService.API\UserService.API.csproj", "{2D292A55-1B00-E997-D6A3-A9AA029F4459}"
 EndProject
@@ -73,7 +71,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService.Applica
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService.Infrastructure", "src\Services\NotificationService\NotificationService.Infrastructure\NotificationService.Infrastructure.csproj", "{2C0447BA-A6DC-4F06-84D9-C51898161BC5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Grpc.Proto", "src\Services\Contracts\UserService.Grpc.Proto\UserService.Grpc.Proto.csproj", "{82EB198A-4873-47CE-962B-B0C3EAEDD8D3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts.Grpc.UserService", "src\Services\Contracts\UserService.Grpc.Proto\Contracts.Grpc.UserService.csproj", "{82EB198A-4873-47CE-962B-B0C3EAEDD8D3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Grpc", "src\Services\UserService\UserService.Grpc\UserService.Grpc.csproj", "{19BD0573-B793-457C-9442-35D60A800354}"
 EndProject
@@ -496,7 +494,6 @@ Global
 		{AE838E4A-7650-465E-B7F9-0A424E9AE956} = {2BC621AF-A1D7-4CC9-8FBF-B0D72BB78F6D}
 		{5CAD4612-9935-4737-B7AF-FB7098D82A0F} = {2BC621AF-A1D7-4CC9-8FBF-B0D72BB78F6D}
 		{90881E10-D204-46DE-B99D-9EBF09E30600} = {2BC621AF-A1D7-4CC9-8FBF-B0D72BB78F6D}
-		{3C66B940-2E36-419F-8D33-DD17BB5B4E01} = {728B1D03-DEAC-439E-9AAB-D8BD53D893D9}
 		{D1028095-4F5F-4269-A442-F17806E1AD60} = {77300803-2696-40B6-9FE6-EC03B697FCCA}
 		{2D292A55-1B00-E997-D6A3-A9AA029F4459} = {8EEC121F-3C19-47CD-9B11-CE238F29404E}
 		{53CABB40-24C7-407A-9CB1-DEA25360CAA3} = {D657E525-9001-4534-88FE-CA7D24129D97}
