@@ -1,6 +1,6 @@
 using BuildingBlocks.Domain.Auditing;
+using Contracts.Events.QuizService.UserQuiz;
 using QuizService.Domain.Enums;
-using QuizService.IntegrationEvents.UserQuiz;
 
 namespace QuizService.Domain.Entities.QuizRuntime;
 

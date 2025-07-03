@@ -1,7 +1,7 @@
 ﻿using BuildingBlocks.EventBus.Abstraction.Distributed;
 using System;
 
-namespace QuizService.IntegrationEvents.UserQuiz
+namespace Contracts.Events.QuizService.UserQuiz
 {
     [DistributedMessage("user-quiz-completed")]
     public class UserQuizCompletedIntegrationEvent
