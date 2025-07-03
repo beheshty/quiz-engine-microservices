@@ -1,7 +1,7 @@
 using BuildingBlocks.Domain;
+using BuildingBlocks.Domain.Exceptions;
 using BuildingBlocks.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Shared.Domain.Exceptions;
 using System.Linq.Expressions;
 
 namespace QuizService.Infrastructure.Repositories.Base;

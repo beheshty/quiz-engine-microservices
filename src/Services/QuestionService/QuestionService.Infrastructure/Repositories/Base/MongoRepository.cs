@@ -1,7 +1,7 @@
 using BuildingBlocks.Domain;
+using BuildingBlocks.Domain.Exceptions;
 using BuildingBlocks.Domain.Repositories;
 using MongoDB.Driver;
-using Shared.Domain.Exceptions;
 
 namespace QuestionService.Infrastructure.Repositories.Base;
 

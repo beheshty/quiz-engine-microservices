@@ -1,9 +1,9 @@
+using BuildingBlocks.Domain.Exceptions;
 using QuizService.Application.Common.CQRS.Interfaces;
 using QuizService.Application.Services;
 using QuizService.Domain.Entities.QuizRuntime;
 using QuizService.Domain.Enums;
 using QuizService.Domain.Repositories;
-using Shared.Domain.Exceptions;
 
 namespace QuizService.Application.Commands.ProcessUserQuiz;
 

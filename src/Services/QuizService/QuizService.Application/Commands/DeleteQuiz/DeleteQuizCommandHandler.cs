@@ -2,7 +2,7 @@ using QuizService.Application.Common.CQRS.Interfaces;
 using QuizService.Domain.Entities.QuizManagement;
 using QuizService.Domain.Repositories;
 using QuizService.Domain.Enums;
-using Shared.Domain.Exceptions;
+using BuildingBlocks.Domain.Exceptions;
 
 namespace QuizService.Application.Commands.DeleteQuiz;
 
