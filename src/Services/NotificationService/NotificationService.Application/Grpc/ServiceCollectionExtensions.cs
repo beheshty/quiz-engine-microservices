@@ -1,6 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Contracts.Grpc.UserService.Proto;
 using Microsoft.Extensions.DependencyInjection;
-using Shared.User.Grpc.Proto;
 
 namespace NotificationService.Application.Grpc
 {

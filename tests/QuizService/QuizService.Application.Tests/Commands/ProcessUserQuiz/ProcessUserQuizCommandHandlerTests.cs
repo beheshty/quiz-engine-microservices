@@ -6,7 +6,7 @@ using QuizService.Domain.Entities.QuizManagement;
 using QuizService.Domain.Entities.QuizRuntime;
 using QuizService.Domain.Enums;
 using QuizService.Domain.Repositories;
-using Shared.Question.Grpc.Proto;
+using Contracts.Grpc.QuestionService.Proto;
 
 namespace QuizService.Application.Tests.Commands.ProcessUserQuiz;
 

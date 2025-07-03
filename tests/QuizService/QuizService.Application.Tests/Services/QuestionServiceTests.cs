@@ -1,8 +1,7 @@
+using Contracts.Grpc.QuestionService.Proto;
 using Moq;
 using QuizService.Application.Grpc;
 using QuizService.Application.Services;
-using Shared.Question.Grpc.Proto;
-using Xunit;
 
 namespace QuizService.Application.Tests.Services;
 

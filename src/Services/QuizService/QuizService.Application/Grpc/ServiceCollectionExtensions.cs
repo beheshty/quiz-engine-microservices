@@ -1,8 +1,8 @@
+using Contracts.Grpc.QuestionService.Proto;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using QuizService.Application.Grpc;
-using Shared.Question.Grpc.Proto;
 
 namespace QuizService.Application.Common.Grpc;
 

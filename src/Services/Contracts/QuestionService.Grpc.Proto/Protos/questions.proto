@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option csharp_namespace = "Shared.Question.Grpc.Proto";
+option csharp_namespace = "Contracts.Grpc.QuestionService.Proto";
 
 package questions;
 
