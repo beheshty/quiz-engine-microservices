@@ -1,6 +1,6 @@
+using Contracts.Grpc.QuestionService.Proto;
 using Grpc.Core;
 using QuestionService.Application.Services;
-using Shared.Question.Grpc.Proto;
 
 namespace QuestionService.Grpc.Services
 {

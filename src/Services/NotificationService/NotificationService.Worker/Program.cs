@@ -1,5 +1,6 @@
 ﻿using BuildingBlocks.EventBus.Abstraction.Distributed;
 using BuildingBlocks.EventBus.Distributed.RabbitMQ.Extensions;
+using Contracts.Events.QuizService.UserQuiz;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -7,7 +8,6 @@ using NotificationService.Application;
 using NotificationService.Application.Grpc;
 using NotificationService.Infrastructure.Extensions;
 using NotificationService.Worker.Quizzes;
-using QuizService.IntegrationEvents.UserQuiz;
 
 Host.CreateDefaultBuilder(args)
     .ConfigureAppConfiguration((context, config) =>

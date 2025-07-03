@@ -1,4 +1,4 @@
-using QuizEngineMicroservices.Shared.Domain.Auditing;
+using BuildingBlocks.Domain.Auditing;
 using QuizService.Domain.Enums;
 
 namespace QuizService.Domain.Entities.QuizManagement;

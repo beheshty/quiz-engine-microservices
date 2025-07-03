@@ -4,7 +4,6 @@ using QuizService.Domain.Entities.QuizManagement;
 using QuizService.Domain.Entities.QuizRuntime;
 using QuizService.Domain.Enums;
 using QuizService.Domain.Repositories;
-using Shared.Domain.Exceptions;
 
 namespace QuizService.Application.Tests.Commands.DraftUserQuiz;
 

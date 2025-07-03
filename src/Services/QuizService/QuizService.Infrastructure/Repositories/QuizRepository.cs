@@ -4,7 +4,7 @@ using QuizService.Domain.Filters;
 using QuizService.Infrastructure.Data;
 using QuizService.Infrastructure.Repositories.Base;
 using Microsoft.EntityFrameworkCore;
-using Shared.Domain.Exceptions;
+using BuildingBlocks.Domain.Exceptions;
 
 namespace QuizService.Infrastructure.Repositories;
 

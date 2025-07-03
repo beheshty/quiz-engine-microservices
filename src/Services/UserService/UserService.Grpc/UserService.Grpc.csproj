@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Contracts\UserService.Grpc.Proto\UserService.Grpc.Proto.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\Contracts\Grpc\Contracts.Grpc.UserService\Contracts.Grpc.UserService.csproj" />
     <ProjectReference Include="..\UserService.Infrastructure\UserService.Infrastructure.csproj" />
   </ItemGroup>
 

@@ -1,5 +1,5 @@
 ﻿
-using Shared.User.Grpc.Proto;
+using Contracts.Grpc.UserService.Proto;
 
 namespace NotificationService.Application.Grpc
 {

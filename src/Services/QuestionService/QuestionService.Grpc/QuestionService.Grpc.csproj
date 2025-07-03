@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Contracts\QuestionService.Grpc.Proto\QuestionService.Grpc.Proto.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\Contracts\Grpc\Contracts.Grpc.QuestionService\Contracts.Grpc.QuestionService.csproj" />
     <ProjectReference Include="..\QuestionService.Application\QuestionService.Application.csproj" />
   </ItemGroup>
 

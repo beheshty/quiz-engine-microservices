@@ -1,10 +1,10 @@
+using Contracts.Grpc.UserService.Proto;
 using Moq;
 using NotificationService.Application.DTOs;
 using NotificationService.Application.Grpc;
 using NotificationService.Application.Quiz;
 using NotificationService.Infrastructure.Abstractions;
-using Shared.User.Grpc.Proto;
-using Xunit;
+
 
 namespace NotificationService.Application.Tests.Quiz
 {

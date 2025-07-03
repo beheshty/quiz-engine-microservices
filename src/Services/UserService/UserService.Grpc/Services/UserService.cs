@@ -1,6 +1,6 @@
-﻿using Grpc.Core;
+﻿using Contracts.Grpc.UserService.Proto;
+using Grpc.Core;
 using Microsoft.AspNetCore.Identity;
-using Shared.User.Grpc.Proto;
 using UserService.API.Models;
 
 namespace UserService.Grpc.Services

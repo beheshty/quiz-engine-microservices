@@ -1,4 +1,4 @@
-using Shared.Question.Grpc.Proto;
+using Contracts.Grpc.QuestionService.Proto;
 
 namespace QuizService.Application.Services;
 

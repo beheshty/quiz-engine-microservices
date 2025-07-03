@@ -16,7 +16,7 @@ COPY ["src/Services/QuestionService/QuestionService.Grpc/QuestionService.Grpc.cs
 COPY ["src/Services/QuestionService/QuestionService.Application/QuestionService.Application.csproj", "src/QuestionService/QuestionService.Application/"]
 COPY ["src/Services/QuestionService/QuestionService.Domain/QuestionService.Domain.csproj", "src/QuestionService/QuestionService.Domain/"]
 COPY ["src/Services/QuestionService/QuestionService.Infrastructure/QuestionService.Infrastructure.csproj", "src/QuestionService/QuestionService.Infrastructure/"]
-COPY ["src/Services/Shared/Shared.Domain/Shared.Domain.csproj", "src/Shared/Shared.Domain/"]
+COPY ["src/BuildingBlocks/Domain/BuildingBlocks.Domain/BuildingBlocks.Domain.csproj", "src/BuildingBlocks/BuilidngBlocks.Domain/"]
 COPY ["src/Services/Shared/Shared.Question.Grpc.Proto/Shared.Question.Grpc.Proto.csproj", "src/Shared/Shared.Question.Grpc.Proto/"]
 RUN dotnet restore "src/Services/QuestionService/QuestionService.Grpc/QuestionService.Grpc.csproj"
 COPY . .

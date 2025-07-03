@@ -15,7 +15,7 @@ WORKDIR /src
 COPY ["src/Services/QuizService/QuizService.API/QuizService.API.csproj", "src/QuizService/QuizService.API/"]
 COPY ["src/Services/QuizService/QuizService.Application/QuizService.Application.csproj", "src/QuizService/QuizService.Application/"]
 COPY ["src/Services/QuizService/QuizService.Domain/QuizService.Domain.csproj", "src/QuizService/QuizService.Domain/"]
-COPY ["src/Services/Shared/Shared.Domain/Shared.Domain.csproj", "src/Shared/Shared.Domain/"]
+COPY ["src/BuildingBlocks/Domain/BuildingBlocks.Domain/BuildingBlocks.Domain.csproj", "src/BuildingBlocks/BuilidngBlocks.Domain/"]
 COPY ["src/Services/QuizService/QuizService.Infrastructure/QuizService.Infrastructure.csproj", "src/QuizService/QuizService.Infrastructure/"]
 RUN dotnet restore "./src/Services/QuizService/QuizService.API/QuizService.API.csproj"
 COPY . .

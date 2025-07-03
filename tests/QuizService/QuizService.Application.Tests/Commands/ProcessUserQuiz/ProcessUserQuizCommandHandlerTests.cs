@@ -1,3 +1,4 @@
+using BuildingBlocks.Domain.Exceptions;
 using Moq;
 using QuizService.Application.Commands.ProcessUserQuiz;
 using QuizService.Application.Services;
@@ -5,8 +6,7 @@ using QuizService.Domain.Entities.QuizManagement;
 using QuizService.Domain.Entities.QuizRuntime;
 using QuizService.Domain.Enums;
 using QuizService.Domain.Repositories;
-using Shared.Domain.Exceptions;
-using Shared.Question.Grpc.Proto;
+using Contracts.Grpc.QuestionService.Proto;
 
 namespace QuizService.Application.Tests.Commands.ProcessUserQuiz;
 

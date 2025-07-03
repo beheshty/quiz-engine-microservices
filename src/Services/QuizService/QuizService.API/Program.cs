@@ -10,7 +10,7 @@ using BuildingBlocks.EventBus.Local.Extensions;
 using BuildingBlocks.EventBus.Distributed.RabbitMQ.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using QuizService.IntegrationEvents.UserQuiz;
+using Contracts.Events.QuizService.UserQuiz;
 
 var builder = WebApplication.CreateBuilder(args);
 

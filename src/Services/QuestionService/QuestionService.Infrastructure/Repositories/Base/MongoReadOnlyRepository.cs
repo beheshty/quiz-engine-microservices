@@ -1,7 +1,7 @@
+using BuildingBlocks.Domain;
+using BuildingBlocks.Domain.Exceptions;
+using BuildingBlocks.Domain.Repositories;
 using MongoDB.Driver;
-using QuizEngineMicroservices.Shared.Domain;
-using Shared.Domain.Exceptions;
-using Shared.Domain.Repositories;
 using System.Linq.Expressions;
 
 namespace QuestionService.Infrastructure.Repositories.Base;

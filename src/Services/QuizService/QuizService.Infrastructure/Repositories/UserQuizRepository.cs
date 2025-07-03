@@ -1,9 +1,9 @@
+using BuildingBlocks.Domain.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using QuizService.Domain.Entities.QuizRuntime;
 using QuizService.Domain.Repositories;
 using QuizService.Infrastructure.Data;
 using QuizService.Infrastructure.Repositories.Base;
-using Shared.Domain.Exceptions;
 
 namespace QuizService.Infrastructure.Repositories;
 

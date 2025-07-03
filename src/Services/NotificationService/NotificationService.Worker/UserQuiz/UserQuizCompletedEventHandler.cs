@@ -1,7 +1,7 @@
 ﻿using BuildingBlocks.EventBus.Abstraction.Distributed;
+using Contracts.Events.QuizService.UserQuiz;
 using NotificationService.Application.DTOs;
 using NotificationService.Application.Quiz;
-using QuizService.IntegrationEvents.UserQuiz;
 
 namespace NotificationService.Worker.Quizzes
 {

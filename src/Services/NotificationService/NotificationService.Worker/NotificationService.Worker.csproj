@@ -15,8 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\Contracts\Events\Contracts.Events.QuizService\Contracts.Events.QuizService.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\EventBus\BuildingBlocks.EventBus.Distributed.RabbitMQ\BuildingBlocks.EventBus.Distributed.RabbitMQ.csproj" />
-    <ProjectReference Include="..\..\Contracts\QuizService.IntegrationEvents\QuizService.IntegrationEvents.csproj" />
     <ProjectReference Include="..\NotificationService.Application\NotificationService.Application.csproj" />
   </ItemGroup>
 

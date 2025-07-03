@@ -1,5 +1,5 @@
+using BuildingBlocks.Domain.Events;
 using BuildingBlocks.EventBus.Abstraction.Domain;
-using QuizEngineMicroservices.Shared.Domain.Events;
 using QuizService.Domain.Repositories;
 using QuizService.Infrastructure.Data;
 
