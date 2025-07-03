@@ -106,3 +106,7 @@ Ensure you have the following installed:
 
 4.  **Access the API Gateway**:
     Once all services are up and running, the API Gateway will be accessible at a defined port (e.g., `http://localhost:8000` or as configured in `docker-compose.yml`). You can then interact with the microservices through this gateway.
+
+ ## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a pull request or open an issue for any bugs or feature requests.
