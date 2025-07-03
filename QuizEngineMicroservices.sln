@@ -45,7 +45,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "QuestionService", "Question
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "QuizService", "QuizService", "{D20BD56E-AF83-4E86-9FDB-993A1016379D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts.Grpc.QuestionService", "src\Services\Contracts\QuestionService.Grpc.Proto\Contracts.Grpc.QuestionService.csproj", "{E8421CB1-31D8-4672-ADAC-92FC6A2A2DED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts.Grpc.QuestionService", "src\BuildingBlocks\Contracts\Grpc\Contracts.Grpc.QuestionService\Contracts.Grpc.QuestionService.csproj", "{E8421CB1-31D8-4672-ADAC-92FC6A2A2DED}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{728B1D03-DEAC-439E-9AAB-D8BD53D893D9}"
 EndProject
@@ -61,7 +61,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlocks.EventBus.Loc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlocks.EventBus.Domain", "src\BuildingBlocks\EventBus\BuildingBlocks.EventBus.Domain\BuildingBlocks.EventBus.Domain.csproj", "{90881E10-D204-46DE-B99D-9EBF09E30600}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts.Events.QuizService", "src\Services\Contracts\QuizService.IntegrationEvents\Contracts.Events.QuizService.csproj", "{D1028095-4F5F-4269-A442-F17806E1AD60}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts.Events.QuizService", "src\BuildingBlocks\Contracts\Events\Contracts.Events.QuizService\Contracts.Events.QuizService.csproj", "{D1028095-4F5F-4269-A442-F17806E1AD60}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.API", "src\Services\UserService\UserService.API\UserService.API.csproj", "{2D292A55-1B00-E997-D6A3-A9AA029F4459}"
 EndProject
@@ -71,7 +71,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService.Applica
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService.Infrastructure", "src\Services\NotificationService\NotificationService.Infrastructure\NotificationService.Infrastructure.csproj", "{2C0447BA-A6DC-4F06-84D9-C51898161BC5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts.Grpc.UserService", "src\Services\Contracts\UserService.Grpc.Proto\Contracts.Grpc.UserService.csproj", "{82EB198A-4873-47CE-962B-B0C3EAEDD8D3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts.Grpc.UserService", "src\BuildingBlocks\Contracts\Grpc\Contracts.Grpc.UserService\Contracts.Grpc.UserService.csproj", "{82EB198A-4873-47CE-962B-B0C3EAEDD8D3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Grpc", "src\Services\UserService\UserService.Grpc\UserService.Grpc.csproj", "{19BD0573-B793-457C-9442-35D60A800354}"
 EndProject
