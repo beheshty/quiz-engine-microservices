@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Contracts\UserService.Grpc.Proto\Contracts.Grpc.UserService.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\Contracts\Grpc\Contracts.Grpc.UserService\Contracts.Grpc.UserService.csproj" />
     <ProjectReference Include="..\NotificationService.Infrastructure\NotificationService.Infrastructure.csproj" />
   </ItemGroup>
 

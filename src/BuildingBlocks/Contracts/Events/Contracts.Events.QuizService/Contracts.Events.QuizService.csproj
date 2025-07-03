@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\BuildingBlocks\EventBus\BuildingBlocks.EventBus.Abstraction\BuildingBlocks.EventBus.Abstraction.csproj" />
+    <ProjectReference Include="..\..\..\EventBus\BuildingBlocks.EventBus.Abstraction\BuildingBlocks.EventBus.Abstraction.csproj" />
   </ItemGroup>
 
 </Project>
